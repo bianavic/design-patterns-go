@@ -5,7 +5,7 @@ import "simple-web-app/models"
 func NewEntertainment(media string) *models.Entertainment {
 	entertainment := models.Entertainment{
 		Media:       media,
-		Type:        "Music",
+		Type:        "Entertainment",
 		Description: "no description entered yet",
 	}
 

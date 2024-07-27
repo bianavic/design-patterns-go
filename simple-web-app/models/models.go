@@ -53,7 +53,6 @@ type Person struct {
 }
 
 type Entertainment struct {
-	ID          int    `json:"id"`
 	Media       string `json:"media"`
 	Type        string `json:"type"`
 	Description string `json:"description"`

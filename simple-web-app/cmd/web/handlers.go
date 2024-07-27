@@ -69,7 +69,7 @@ func (app *application) CreateMusicFromFactory(writer http.ResponseWriter, reque
 
 func (app *application) CreateTelevisionFromFactory(writer http.ResponseWriter, request *http.Request) {
 	var t toolbox.Tools
-	_ = t.WriteJSON(writer, http.StatusOK, entertainment.NewEntertainment("TV Show created from factory"))
+	_ = t.WriteJSON(writer, http.StatusOK, entertainment.NewEntertainment("Television created from factory"))
 }
 
 func (app *application) TestPatterns(writer http.ResponseWriter, request *http.Request) {
