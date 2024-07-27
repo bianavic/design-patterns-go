@@ -1,7 +1,9 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"time"
@@ -9,12 +11,22 @@ import (
 
 const port = ":4000"
 
+// receiver for handlers
 type application struct {
+	templateMap map[string]*template.Template
+	config      appConfig
+}
+
+type appConfig struct {
+	useCache bool
 }
 
 func main() {
 
 	app := &application{}
+
+	flag.BoolVar(&app.config.useCache, "cache", false, "Use template cache")
+	flag.Parse()
 
 	server := &http.Server{
 		Addr:              port,
