@@ -1,0 +1,60 @@
+{{ template "base" .}}
+
+{{ define "content" }}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="mt-3">Design Patterns in GO</h1>
+                <hr>
+                <h3>Creational Patterns</h3>
+                <div>
+{{/*                click button call backend for music or tv show when call respective handler*/}}
+                <a href=javascript:void(0); id="music-factory-btn" class="btn btn outline-secondary">Get music from factory</a>
+                <a href=javascript:void(0); id="tvshow-factory-btn" class="btn btn outline-secondary">Get tv show from factory</a>
+                </div>
+                <div class="mt-3" style="outline: 1px solid silver; padding: 2em;">
+                <pre id="music-factory-output"><span class="text-muted">Nothing received yet...</span></pre>
+                </div>
+            </div>
+            </div>
+    </div>
+{{ end }}
+
+{{ define "js" }}
+<script>
+    let musicFactoryButton = document.getElementById("music-factory-btn")
+    let televisionFactoryButton = document.getElementById("television-factory-btn")
+    let musicFactoryOutput = document.getElementById("music-factory-output")
+    let televisionFactoryOutput = document.getElementById("television-factory-output")
+
+    document.addEventListener("DOMContentLoaded", function() {
+        musicFactoryButton.addEventListener("click", function() {
+            fetch("/api/music-factory", {method: "GET"})
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        musicFactoryOutput.innerHTML = `<span class="text-danger">${data.error}</span>`
+                        return
+                    } else {
+                        musicFactoryOutput.innerHTML = JSON.stringify(data, undefined, 4)
+                    }
+                })
+        })
+
+        televisionFactoryButton.addEventListener("click", function() {
+            fetch("/api/television-factory", {method: "GET"})
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        televisionFactoryButton.innerHTML = `<span class="text-danger">${data.error}</span>`
+                        return
+                    } else {
+                        televisionFactoryOutput.innerHTML = JSON.stringify(data, undefined, 4)
+                    }
+                })
+        })
+    })
+
+
+</script>
+{{ end }}
