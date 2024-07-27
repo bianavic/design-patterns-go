@@ -11,11 +11,11 @@ type MediaInterface interface {
 }
 
 type MusicFromFactory struct {
-	Entertainment *models.MusicTrack
+	Entertainment *models.Song
 }
 
 func (mff *MusicFromFactory) Show() string {
-	return fmt.Sprintf("Music album name is: %s", mff.Entertainment.MusicAlbum.Name)
+	return fmt.Sprintf("Media type is: %s", mff.Entertainment.MediaType.Name)
 }
 
 type TelevisionFromFactory struct {
@@ -23,7 +23,7 @@ type TelevisionFromFactory struct {
 }
 
 func (tff *TelevisionFromFactory) Show() string {
-	return fmt.Sprintf("TV Show name is: %s", tff.Entertainment.Television.Name)
+	return fmt.Sprintf("Media Type is: %s", tff.Entertainment.MediaType.Name)
 }
 
 type EntertainmentFactory interface {
@@ -34,7 +34,7 @@ type MusicAbstractFactory struct{}
 
 func (maf *MusicAbstractFactory) newMedia() MediaInterface {
 	return &MusicFromFactory{
-		Entertainment: &models.MusicTrack{},
+		Entertainment: &models.Song{},
 	}
 }
 

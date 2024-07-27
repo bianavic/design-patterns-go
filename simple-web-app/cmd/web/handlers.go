@@ -84,7 +84,7 @@ func (app *application) CreateMusicFromAbstractFactory(writer http.ResponseWrite
 		return
 	}
 	// send to user as a response
-	_ = t.WriteJSON(writer, http.StatusOK, music.Show())
+	_ = t.WriteJSON(writer, http.StatusOK, music)
 }
 
 func (app *application) CreateTelevisionFromAbstractFactory(writer http.ResponseWriter, request *http.Request) {
@@ -95,5 +95,5 @@ func (app *application) CreateTelevisionFromAbstractFactory(writer http.Response
 		return
 	}
 	// send to user as a response
-	_ = t.WriteJSON(writer, http.StatusOK, television.Show())
+	_ = t.WriteJSON(writer, http.StatusOK, television)
 }
