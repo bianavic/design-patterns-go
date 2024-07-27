@@ -4,6 +4,12 @@
 
 {{ template "header" . }}
 
+<style>
+    body {
+        margin-top: 4em;
+    }
+</style>
+
 {{block "css" .}}
 
 {{end}}
@@ -24,18 +30,18 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Whatever
+                        Entertainment
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/cat-breeds">Cat</a></li>
-                        <li><a class="dropdown-item" href="/dog-breeds">Gog</a></li>
+                        <li><a class="dropdown-item" href="/music-songs">Music</a></li>
+                        <li><a class="dropdown-item" href="/tv-shows">TV Shows</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/cat-breeders" aria-disabled="false">Cat Directory</a>
+                    <a class="nav-link" href="/music-singers" aria-disabled="false">Music Directory</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/dog-breeders" aria-disabled="false">Dog Directory</a>
+                    <a class="nav-link" href="/tv-titles" aria-disabled="false">TV Show Directory</a>
                 </li>
             </ul>
         </div>
