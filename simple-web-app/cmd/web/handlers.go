@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/go-chi/chi/v5"
+	"github.com/tsawler/toolbox"
 	"net/http"
+	"simple-web-app/entertainment"
 )
 
 func (app *application) ShowHome(writer http.ResponseWriter, request *http.Request) {
@@ -58,4 +60,14 @@ func (app *application) ShowTVShows(writer http.ResponseWriter, request *http.Re
 	}
 
 	app.render(writer, "tv-shows.page.gohtml", data)
+}
+
+func (app *application) CreateMusicFromFactory(writer http.ResponseWriter, request *http.Request) {
+	var t toolbox.Tools
+	_ = t.WriteJSON(writer, http.StatusOK, entertainment.NewEntertainment("Music created from factory"))
+}
+
+func (app *application) CreateTVShowFromFactory(writer http.ResponseWriter, request *http.Request) {
+	var t toolbox.Tools
+	_ = t.WriteJSON(writer, http.StatusOK, entertainment.NewEntertainment("TV Show created from factory"))
 }
