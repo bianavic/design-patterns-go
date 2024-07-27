@@ -1,11 +1,45 @@
 {{ template "base" . }}
 
+{{define "css"}}
+    <style>
+        .song-list {
+            margin-top: 20px;
+        }
+        .song-item {
+            margin-bottom: 20px;
+        }
+        .song-item iframe {
+            width: 100%;
+            height: 315px;
+        }
+        .song-item a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .song-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+{{end}}
+
 {{ define "content" }}
 
     <div class="container">
         <div class="row">
             <div class="col">
                 <h3 class="mt-4">Songs</h3>
+                <div class="song-list">
+                    {{range .Data.Songs}}
+                        <div class="song-item">
+                            <h4>{{.Title}}</h4>
+                            <div class="ratio ratio-16x9">
+                                <iframe src="{{.URL}}" title="YouTube video" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    {{else}}
+                        <p>No songs available.</p>
+                    {{end}}
+                </div>
             </div>
         </div>
     </div>
