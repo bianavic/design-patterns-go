@@ -23,7 +23,10 @@ type appConfig struct {
 
 func main() {
 
-	app := &application{}
+	app := &application{
+		// return and populates its fields
+		templateMap: make(map[string]*template.Template),
+	}
 
 	flag.BoolVar(&app.config.useCache, "cache", false, "Use template cache")
 	flag.Parse()
@@ -42,8 +45,6 @@ func main() {
 	err := server.ListenAndServe()
 	if err != nil {
 		log.Fatal(err)
-		//	fmt.Println("Error starting server:", err)
-		//	return
 	}
 
 }

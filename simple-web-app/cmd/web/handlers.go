@@ -5,6 +5,6 @@ import (
 )
 
 func (app *application) ShowHome(writer http.ResponseWriter, request *http.Request) {
-	//fmt.Fprint(writer, "Hello, Stranger!")
-	writer.Write([]byte("Hello, Stranger!"))
+	// because it is a pointer to templateData, can pass nil
+	app.render(writer, "home.page.gohtml", nil)
 }
