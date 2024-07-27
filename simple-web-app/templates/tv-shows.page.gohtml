@@ -5,7 +5,26 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h3 class="mt-4">Titles</h3>
+                <h3 class="mt-4">Trailers</h3>
+                <div class="tv-shows">
+                    {{range .Data.TVShow}}
+                        <div class="tvshow-item">
+                            <h4>{{.Title}}</h4>
+                            <div class="ratio ratio-16x9">
+                                <iframe src="{{.URL}}" title="YouTube video" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    {{else}}
+                        <p>No tv show available.</p>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
             </div>
         </div>
     </div>

@@ -46,6 +46,7 @@ func (app *application) routes() http.Handler {
 	mux.Get("/", app.ShowHome)
 	mux.Get("/{page}", app.ShowPage)
 	mux.Get("/music-songs", app.ShowMusicSongs)
+	mux.Get("/tv-shows", app.ShowTVShows)
 
 	return mux
 }
