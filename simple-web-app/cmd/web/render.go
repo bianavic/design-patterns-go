@@ -23,6 +23,7 @@ func (app *application) render(writer http.ResponseWriter, t string, td *templat
 	if app.config.useCache {
 		if templateFromMap, ok := app.templateMap[t]; ok {
 			tmpl = templateFromMap
+			log.Println("using template from cache")
 		}
 	}
 
@@ -46,11 +47,6 @@ func (app *application) render(writer http.ResponseWriter, t string, td *templat
 		http.Error(writer, err.Error(), http.StatusInternalServerError)
 	}
 
-	// initialize a new buffer
-
-	// execute the template set, passing the current request to the template
-
-	// write the contents of the buffer to the http.ResponseWriter
 }
 
 func (app *application) buildTemplateFromDisk(t string) (*template.Template, error) {

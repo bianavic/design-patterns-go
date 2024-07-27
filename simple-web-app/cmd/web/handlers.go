@@ -14,13 +14,4 @@ func (app *application) ShowHome(writer http.ResponseWriter, request *http.Reque
 func (app *application) ShowPage(writer http.ResponseWriter, request *http.Request) {
 	page := chi.URLParam(request, "page")
 	app.render(writer, fmt.Sprintf("%s.page.gohtml", page), nil)
-	if page == "" {
-		page = "home"
-	}
-
-	//if page != "home" && page != "about" && page != "contact" {
-	//	app.notFound(writer)
-	//	return
-	//}
-
 }
