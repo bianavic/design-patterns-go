@@ -25,7 +25,7 @@ type MusicTrack struct {
 	PersonID     int        `json:"person_id"`
 	Title        string     `json:"title"`
 	Artist       string     `json:"artist"`
-	Music        MusicAlbum `json:"music_album"`
+	MusicAlbum   MusicAlbum `json:"music_album"`
 	Person       []*Person  `json:"person"`
 }
 

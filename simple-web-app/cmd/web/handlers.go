@@ -75,3 +75,25 @@ func (app *application) CreateTelevisionFromFactory(writer http.ResponseWriter, 
 func (app *application) TestPatterns(writer http.ResponseWriter, request *http.Request) {
 	app.render(writer, "test.page.gohtml", nil)
 }
+
+func (app *application) CreateMusicFromAbstractFactory(writer http.ResponseWriter, request *http.Request) {
+	var t toolbox.Tools
+	music, err := entertainment.NewEntertainmentFromAbstractFactory("music")
+	if err != nil {
+		_ = t.WriteJSON(writer, http.StatusBadRequest, err.Error())
+		return
+	}
+	// send to user as a response
+	_ = t.WriteJSON(writer, http.StatusOK, music.Show())
+}
+
+func (app *application) CreateTelevisionFromAbstractFactory(writer http.ResponseWriter, request *http.Request) {
+	var t toolbox.Tools
+	television, err := entertainment.NewEntertainmentFromAbstractFactory("television")
+	if err != nil {
+		_ = t.WriteJSON(writer, http.StatusBadRequest, err.Error())
+		return
+	}
+	// send to user as a response
+	_ = t.WriteJSON(writer, http.StatusOK, television.Show())
+}

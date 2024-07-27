@@ -48,6 +48,8 @@ func (app *application) routes() http.Handler {
 	// factory routes
 	mux.Get("/api/music-factory", app.CreateMusicFromFactory)
 	mux.Get("/api/television-factory", app.CreateTelevisionFromFactory)
+	mux.Get("/api/music-abstract-factory", app.CreateMusicFromAbstractFactory)
+	mux.Get("/api/television-abstract-factory", app.CreateTelevisionFromAbstractFactory)
 
 	mux.Get("/", app.ShowHome)
 	mux.Get("/{page}", app.ShowPage)
