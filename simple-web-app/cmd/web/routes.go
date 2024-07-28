@@ -45,11 +45,16 @@ func (app *application) routes() http.Handler {
 
 	// display test page
 	mux.Get("/test-patterns", app.TestPatterns)
+
 	// factory routes
 	mux.Get("/api/music-factory", app.CreateMusicFromFactory)
 	mux.Get("/api/television-factory", app.CreateTelevisionFromFactory)
 	mux.Get("/api/music-abstract-factory", app.CreateMusicFromAbstractFactory)
 	mux.Get("/api/television-abstract-factory", app.CreateTelevisionFromAbstractFactory)
+
+	// builder routes
+	mux.Get("/api/music-album-builder", app.CreateMusicAlbumWithBuilder)
+	mux.Get("/api/television-builder", app.CreateTelevisionWithBuilder)
 
 	mux.Get("/", app.ShowHome)
 	mux.Get("/{page}", app.ShowPage)

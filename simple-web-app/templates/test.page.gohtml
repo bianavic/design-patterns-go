@@ -8,13 +8,15 @@
                 <hr>
                 <h3>Factory</h3>
                 <div>
-{{/*                click button call backend for music or tv show when call respective handler*/}}
-                <a href=javascript:void(0); id="music-factory-btn" class="btn btn outline-secondary">Get music from factory</a>
-                <a href=javascript:void(0); id="television-factory-btn" class="btn btn outline-secondary">Get television from factory</a>
+                    {{/*                click button call backend for music or tv show when call respective handler*/}}
+                    <a href=javascript:void(0); id="music-factory-btn" class="btn btn outline-secondary">Get music from
+                        factory</a>
+                    <a href=javascript:void(0); id="television-factory-btn" class="btn btn outline-secondary">Get
+                        television from factory</a>
                 </div>
                 <div class="mt-2" style="outline: 1px solid silver; padding: 2em;">
-                <pre id="music-factory-output"><span class="text-muted">Nothing received yet...</span></pre>
-{{/*                    <pre id="television-factory-output"><span class="text-muted">Nothing received yet...</span></pre>*/}}
+                    <pre id="music-factory-output"><span class="text-muted">Nothing received yet...</span></pre>
+                    {{/*                    <pre id="television-factory-output"><span class="text-muted">Nothing received yet...</span></pre>*/}}
                 </div>
 
                 <hr class="mt-4">
@@ -29,7 +31,20 @@
                     </a>
                 </div>
                 <div class="mt-2" style="outline: 1px solid silver; padding: 2em;">
-                <pre id="abstract-output"><span class="text-muted">Nothing received yet...</span></pre>
+                    <pre id="abstract-output"><span class="text-muted">Nothing received yet...</span></pre>
+                </div>
+
+                <h3 class="mt-3">Builder</h3>
+                <div>
+                    <a href=javascript:void(0); id="music-builder-btn" class="btn btn outline-secondary">
+                        Build music
+                    </a>
+                    <a href=javascript:void(0); id="television-builder-btn" class="btn btn outline-secondary">
+                        Build television
+                    </a>
+                </div>
+                <div class="mt-2" style="outline: 1px solid silver; padding: 2em;">
+                    <pre id="builder-output"><span class="text-muted">Nothing received yet...</span></pre>
                 </div>
 
             </div>
@@ -38,66 +53,94 @@
 {{ end }}
 
 {{ define "js" }}
-<script>
-    let musicFactoryButton = document.getElementById("music-factory-btn")
-    let televisionFactoryButton = document.getElementById("television-factory-btn")
-    let musicFactoryOutput = document.getElementById("music-factory-output")
-    // let televisionFactoryOutput = document.getElementById("television-factory-output")
+    <script>
+        let musicFactoryButton = document.getElementById("music-factory-btn")
+        let televisionFactoryButton = document.getElementById("television-factory-btn")
+        let musicFactoryOutput = document.getElementById("music-factory-output")
+        // let televisionFactoryOutput = document.getElementById("television-factory-output")
 
-    let musicAbstractFactoryButton = document.getElementById("music-abstract-factory-btn")
-    let televisionAbstractFactoryButton = document.getElementById("television-abstract-factory-btn")
-    let abstractFactoryOutput = document.getElementById("abstract-output")
+        let musicAbstractFactoryButton = document.getElementById("music-abstract-factory-btn")
+        let televisionAbstractFactoryButton = document.getElementById("television-abstract-factory-btn")
+        let abstractFactoryOutput = document.getElementById("abstract-output")
 
-    document.addEventListener("DOMContentLoaded", function() {
-        musicFactoryButton.addEventListener("click", function() {
-            fetch("/api/music-factory", {method: "GET"})
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        musicFactoryOutput.innerHTML = `<span class="text-danger">${data.error}</span>`
-                    } else {
-                        musicFactoryOutput.innerHTML = JSON.stringify(data, undefined, 4)
-                    }
-                })
+        let musicBuilderButton = document.getElementById("music-builder-btn")
+        let televisionBuilderButton = document.getElementById("television-builder-btn")
+        let builderOutput = document.getElementById("builder-output")
+
+        document.addEventListener("DOMContentLoaded", function () {
+            musicFactoryButton.addEventListener("click", function () {
+                fetch("/api/music-factory", {method: "GET"})
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            musicFactoryOutput.innerHTML = `<span class="text-danger">${data.error}</span>`
+                        } else {
+                            musicFactoryOutput.innerHTML = JSON.stringify(data, undefined, 4)
+                        }
+                    })
+            })
+
+            televisionFactoryButton.addEventListener("click", function () {
+                fetch("/api/television-factory", {method: "GET"})
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            televisionFactoryButton.innerHTML = `<span class="text-danger">${data.error}</span>`
+                        } else {
+                            musicFactoryOutput.innerHTML = JSON.stringify(data, undefined, 4)
+                        }
+                    })
+            })
+
+            musicAbstractFactoryButton.addEventListener("click", function () {
+                fetch("/api/music-abstract-factory", {method: "GET"})
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            abstractFactoryOutput.innerHTML = `<span class="text-danger">${data.error}</span>`
+                        } else {
+                            abstractFactoryOutput.innerHTML = JSON.stringify(data, undefined, 4)
+                        }
+                    })
+            })
+
+            televisionAbstractFactoryButton.addEventListener("click", function () {
+                fetch("/api/television-abstract-factory", {method: "GET"})
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            abstractFactoryOutput.innerHTML = `<span class="text-danger">${data.error}</span>`
+                        } else {
+                            abstractFactoryOutput.innerHTML = JSON.stringify(data, undefined, 4)
+                        }
+                    })
+            })
+
+            musicBuilderButton.addEventListener("click", function () {
+                fetch("/api/music-album-builder", {method: "GET"})
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            builderOutput.innerHTML = `<span class="text-danger">${data.error}</span>`
+                        } else {
+                            builderOutput.innerHTML = JSON.stringify(data, undefined, 4)
+                        }
+                    })
+            })
+
+            televisionBuilderButton.addEventListener("click", function () {
+                fetch("/api/television-builder", {method: "GET"})
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            builderOutput.innerHTML = `<span class="text-danger">${data.error}</span>`
+                        } else {
+                            builderOutput.innerHTML = JSON.stringify(data, undefined, 4)
+                        }
+                    })
+            })
+
         })
 
-        televisionFactoryButton.addEventListener("click", function() {
-            fetch("/api/television-factory", {method: "GET"})
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        televisionFactoryButton.innerHTML = `<span class="text-danger">${data.error}</span>`
-                    } else {
-                        musicFactoryOutput.innerHTML = JSON.stringify(data, undefined, 4)
-                    }
-                })
-        })
-
-        musicAbstractFactoryButton.addEventListener("click", function() {
-            fetch("/api/music-abstract-factory", {method: "GET"})
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        abstractFactoryOutput.innerHTML = `<span class="text-danger">${data.error}</span>`
-                    } else {
-                        abstractFactoryOutput.innerHTML = JSON.stringify(data, undefined, 4)
-                    }
-                })
-        })
-
-        televisionAbstractFactoryButton.addEventListener("click", function() {
-            fetch("/api/television-abstract-factory", {method: "GET"})
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        abstractFactoryOutput.innerHTML = `<span class="text-danger">${data.error}</span>`
-                    } else {
-                        abstractFactoryOutput.innerHTML = JSON.stringify(data, undefined, 4)
-                    }
-                })
-        })
-
-    })
-
-</script>
+    </script>
 {{ end }}

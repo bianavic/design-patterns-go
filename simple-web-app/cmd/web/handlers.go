@@ -126,3 +126,49 @@ func (app *application) GetAllMusicAlbumsJSON(writer http.ResponseWriter, reques
 
 	_ = t.WriteJSON(writer, http.StatusOK, musicAlbums)
 }
+
+func (app *application) CreateMusicAlbumWithBuilder(writer http.ResponseWriter, request *http.Request) {
+	var t toolbox.Tools
+
+	// create a new music album using builder pattern
+	m, err := entertainment.NewEntertainmentBuilder().
+		SetType("Music Album").
+		SetMediaType("CD").
+		SetGenre("Pop").
+		SetDescription("Description 1").
+		SetCountry("USA").
+		SetRating(5).
+		SetReleaseYear(2022).
+		SetAvailable(true).
+		Build()
+	if err != nil {
+		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
+		return
+	}
+
+	// send to user as a response
+	_ = t.WriteJSON(writer, http.StatusOK, m)
+}
+
+func (app *application) CreateTelevisionWithBuilder(writer http.ResponseWriter, request *http.Request) {
+	var t toolbox.Tools
+
+	// create a new music album using builder pattern
+	m, err := entertainment.NewEntertainmentBuilder().
+		SetType("TV Show").
+		SetMediaType("Streaming").
+		SetGenre("Crime").
+		SetDescription("Description 1").
+		SetCountry("Korea").
+		SetRating(9).
+		SetReleaseYear(2023).
+		SetAvailable(true).
+		Build()
+	if err != nil {
+		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
+		return
+	}
+
+	// send to user as a response
+	_ = t.WriteJSON(writer, http.StatusOK, m)
+}
