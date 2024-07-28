@@ -3,7 +3,7 @@ package models
 import "database/sql"
 
 // place store db connections
-var db *sql.DB
+var repo Repository
 
 type Models struct {
 	MusicAlbum MusicAlbum
@@ -11,7 +11,8 @@ type Models struct {
 
 // factory function
 func New(conn *sql.DB) *Models {
-	db = conn
+	repo = newMysqlRepository(conn)
+
 	return &Models{
 		MusicAlbum: MusicAlbum{},
 	}
@@ -28,7 +29,7 @@ type MusicAlbum struct {
 }
 
 func (m *MusicAlbum) All() ([]*MusicAlbum, error) {
-	return m.AllMusicAlbums()
+	return repo.AllMusicAlbums()
 }
 
 type Television struct {

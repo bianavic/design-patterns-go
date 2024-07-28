@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func (m *MusicAlbum) AllMusicAlbums() ([]*MusicAlbum, error) {
+func (m *mysqlRepository) AllMusicAlbums() ([]*MusicAlbum, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
@@ -16,7 +16,7 @@ func (m *MusicAlbum) AllMusicAlbums() ([]*MusicAlbum, error) {
 
 	var musicAlbums []*MusicAlbum
 
-	rows, err := db.QueryContext(ctx, query)
+	rows, err := m.DB.QueryContext(ctx, query)
 	if err != nil {
 		log.Println("Internal Server Error", http.StatusInternalServerError)
 		return nil, err

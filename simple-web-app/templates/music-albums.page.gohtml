@@ -26,6 +26,9 @@
                         </th>
                     </tr>
                     </thead>
+                    <tbody>
+                    <!-- Rows will be inserted here by JavaScript -->
+                    </tbody>
                 </table>
 
             </div>
@@ -37,10 +40,10 @@
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            fetch("/api/music-albums")
+            fetch("/api/music-albums", {method: "GET"})
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                        throw new Error('Network z was not ok');
                     }
                     return response.json();
                 })
@@ -48,15 +51,15 @@
                     if (!response.length) {
                         return;
                     }
-                    const table = document.querySelector(".music-albums tbody");
+                    table = document.querySelector(".music-albums tbody");
                     response.forEach(album => {
                         const row = table.insertRow();
-                        row.insertCell(0).innerText = album.details;
+                        row.insertCell(0).innerText = album.details || 'N/A';
                         row.insertCell(1).innerHTML = `<a href="/music-albums/${album.id}">${album.name}</a>`;
                         row.insertCell(2).innerText = "";
                         row.insertCell(3).innerText = "";
-                        row.insertCell(4).innerHTML = `<div class="text-center">${album.media_type}</div>`;
-                        row.insertCell(5).innerHTML = `<div class="text-center">${album.genre}</div>`;
+                        row.insertCell(4).innerHTML = `<div class="text-center">${album.media_type || 'N/A'}</div>`;
+                        row.insertCell(5).innerHTML = `<div class="text-center">${album.genre || 'N/A'}</div>`;
                     });
                 })
                 .catch(error => {
