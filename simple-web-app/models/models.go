@@ -1,5 +1,22 @@
 package models
 
+import "database/sql"
+
+// place store db connections
+var db *sql.DB
+
+type Models struct {
+	MusicAlbum MusicAlbum
+}
+
+// factory function
+func New(conn *sql.DB) *Models {
+	db = conn
+	return &Models{
+		MusicAlbum: MusicAlbum{},
+	}
+}
+
 type MusicAlbum struct {
 	ID          int    `json:"id"`
 	Name        string `json:"name"`
@@ -8,6 +25,10 @@ type MusicAlbum struct {
 	Details     string `json:"details"`
 	Country     string `json:"country"`
 	ReleaseDate string `json:"release_date"`
+}
+
+func (m *MusicAlbum) All() ([]*MusicAlbum, error) {
+	return m.AllMusicAlbums()
 }
 
 type Television struct {
