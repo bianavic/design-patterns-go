@@ -2,6 +2,8 @@ package models
 
 import (
 	"context"
+	"log"
+	"net/http"
 	"time"
 )
 
@@ -16,6 +18,7 @@ func (m *MusicAlbum) AllMusicAlbums() ([]*MusicAlbum, error) {
 
 	rows, err := db.QueryContext(ctx, query)
 	if err != nil {
+		log.Println("Internal Server Error", http.StatusInternalServerError)
 		return nil, err
 	}
 	defer rows.Close()
@@ -31,9 +34,15 @@ func (m *MusicAlbum) AllMusicAlbums() ([]*MusicAlbum, error) {
 			&musicAlbum.Country,
 			&musicAlbum.ReleaseDate)
 		if err != nil {
+			log.Println("Internal Server Error", http.StatusInternalServerError)
 			return nil, err
 		}
 		musicAlbums = append(musicAlbums, &musicAlbum)
+
+		// Check for errors from iterating over rows
+		if err := rows.Err(); err != nil {
+			log.Println("Internal Server Error", http.StatusInternalServerError)
+		}
 	}
 
 	return musicAlbums, nil

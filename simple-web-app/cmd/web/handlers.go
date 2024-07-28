@@ -40,6 +40,24 @@ func (app *application) ShowMusicSongs(writer http.ResponseWriter, request *http
 	app.render(writer, "music-songs.page.gohtml", data)
 }
 
+func (app *application) ShowMusicAlbums(writer http.ResponseWriter, request *http.Request) {
+
+	var t toolbox.Tools
+	musicAlbums, err := app.Models.MusicAlbum.All()
+	if err != nil {
+		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
+		return
+	}
+
+	data := &templateData{
+		Data: map[string]any{
+			"MusicAlbums": musicAlbums,
+		},
+	}
+
+	app.render(writer, "music-albums.page.gohtml", data)
+}
+
 func (app *application) ShowTVShows(writer http.ResponseWriter, request *http.Request) {
 
 	tvShows := []struct {
@@ -98,13 +116,13 @@ func (app *application) CreateTelevisionFromAbstractFactory(writer http.Response
 	_ = t.WriteJSON(writer, http.StatusOK, television)
 }
 
-func (app *application) GetAllMusicAlbumsJSON(writer http.ResponseWriter, request *http.Request) {
-	var t toolbox.Tools
-	musicAlbums, err := app.Models.MusicAlbum.All()
-	if err != nil {
-		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
-		return
-	}
-
-	_ = t.WriteJSON(writer, http.StatusOK, musicAlbums)
-}
+//func (app *application) GetAllMusicAlbumsJSON(writer http.ResponseWriter, request *http.Request) {
+//	var t toolbox.Tools
+//	musicAlbums, err := app.Models.MusicAlbum.All()
+//	if err != nil {
+//		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
+//		return
+//	}
+//
+//	_ = t.WriteJSON(writer, http.StatusOK, musicAlbums)
+//}
