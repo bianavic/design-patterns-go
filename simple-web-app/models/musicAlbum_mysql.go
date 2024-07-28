@@ -9,8 +9,8 @@ func (m *MusicAlbum) AllMusicAlbums() ([]*MusicAlbum, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	query := `select ID, Name, MediaType, Genre, Details, Country, ReleaseDate, 
-       coalesce(details, '') from media_stream.MusicAlbum order by name asc`
+	query := `select ID, Name, MediaType, Genre, coalesce(Details, ''), Country, ReleaseDate 
+       from media_stream.MusicAlbum order by name asc`
 
 	var musicAlbums []*MusicAlbum
 

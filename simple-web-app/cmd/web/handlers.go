@@ -97,3 +97,14 @@ func (app *application) CreateTelevisionFromAbstractFactory(writer http.Response
 	// send to user as a response
 	_ = t.WriteJSON(writer, http.StatusOK, television)
 }
+
+func (app *application) GetAllMusicAlbumsJSON(writer http.ResponseWriter, request *http.Request) {
+	var t toolbox.Tools
+	musicAlbums, err := app.Models.MusicAlbum.All()
+	if err != nil {
+		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
+		return
+	}
+
+	_ = t.WriteJSON(writer, http.StatusOK, musicAlbums)
+}
