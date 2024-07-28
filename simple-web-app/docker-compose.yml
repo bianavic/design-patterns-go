@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  database:
+    image: mysql:8.4
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: media_user
+      MYSQL_PASSWORD: media123
+      MYSQL_DATABASE: media_stream
+    volumes:
+      - ./db-data/mysql:/var/lib/sql
+      - ./sql/db.sql:/docker-entrypoint-initdb.d/db.sql
+    user: "149255352:1010544492"
