@@ -43,7 +43,7 @@ func (app *application) ShowMusicSongs(writer http.ResponseWriter, request *http
 func (app *application) ShowMusicAlbums(writer http.ResponseWriter, request *http.Request) {
 
 	var t toolbox.Tools
-	musicAlbums, err := app.Models.MusicAlbum.All()
+	musicAlbums, err := app.App.Models.MusicAlbum.All()
 	if err != nil {
 		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
 		return
@@ -118,7 +118,7 @@ func (app *application) CreateTelevisionFromAbstractFactory(writer http.Response
 
 func (app *application) GetAllMusicAlbumsJSON(writer http.ResponseWriter, request *http.Request) {
 	var t toolbox.Tools
-	musicAlbums, err := app.Models.MusicAlbum.All()
+	musicAlbums, err := app.App.Models.MusicAlbum.All()
 	if err != nil {
 		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
 		return
