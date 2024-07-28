@@ -17,3 +17,13 @@ func newMysqlRepository(conn *sql.DB) Repository {
 		DB: conn,
 	}
 }
+
+type testRepository struct {
+	DB *sql.DB
+}
+
+func newTestMysqlRepository(conn *sql.DB) Repository {
+	return &testRepository{
+		DB: nil,
+	}
+}

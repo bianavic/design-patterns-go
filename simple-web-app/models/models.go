@@ -11,7 +11,11 @@ type Models struct {
 
 // factory function
 func New(conn *sql.DB) *Models {
-	repo = newMysqlRepository(conn)
+	if conn != nil {
+		repo = newMysqlRepository(conn)
+	} else {
+		repo = newTestMysqlRepository(conn)
+	}
 
 	return &Models{
 		MusicAlbum: MusicAlbum{},
