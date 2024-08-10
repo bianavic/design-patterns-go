@@ -1,23 +1,21 @@
 package main
 
 import (
-	"database/sql"
 	"flag"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
-	"html/template"
 	"log"
 	"net/http"
+	"simple-web-app/configuration"
 	"time"
 )
 
-const port = ":4000"
+const port = ":8081"
 
 // receiver for handlers
 type application struct {
-	templateMap map[string]*template.Template
-	config      appConfig
-	DB          *sql.DB
+	config appConfig
+	App    *configuration.Application
 }
 
 type appConfig struct {
@@ -27,22 +25,24 @@ type appConfig struct {
 
 func main() {
 
-	app := &application{
-		// return and populates its fields
-		templateMap: make(map[string]*template.Template),
-	}
+	var config appConfig
 
-	flag.BoolVar(&app.config.useCache, "cache", false, "Use template cache")
-	flag.StringVar(&app.config.dsn, "dsn", ":@tcp(localhost:3306)/media_stream?parseTime=true&tls=false&collation=utf8_unicode_ci&timeout=5s", "Use DSN")
+	flag.StringVar(&config.dsn, "dsn", "root:@tcp(localhost:3306)/media_stream?parseTime=true&tls=false&collation=utf8_unicode_ci&timeout=5s", "Use DSN")
 	flag.Parse()
 
 	// get db
-	db, err := initMySQLDB(app.config.dsn)
+	db, err := initMySQLDB(config.dsn)
 	if err != nil {
-		log.Panic(err)
+		log.Fatal(err)
 	}
-	app.DB = db
 
+	app := &application{
+		// return and populates its fields
+		App:    configuration.New(db),
+		config: config,
+	}
+
+	// create a new server
 	server := &http.Server{
 		Addr:              port,
 		Handler:           app.routes(),
