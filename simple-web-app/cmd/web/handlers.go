@@ -37,7 +37,7 @@ func (app *application) ShowMusicSongs(writer http.ResponseWriter, request *http
 		},
 	}
 
-	app.render(writer, "music-songs.page.gohtml", data)
+	app.render(writer, "music-video-clips.page.gohtml", data)
 }
 
 func (app *application) ShowMusicAlbums(writer http.ResponseWriter, request *http.Request) {
