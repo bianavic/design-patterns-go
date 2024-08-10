@@ -68,5 +68,5 @@ func (app *application) GetAllTelevisionNamesXML(writer http.ResponseWriter, req
 		return
 	}
 	// Write the XML out.
-	_ = t.WriteJSON(writer, http.StatusOK, mediaType)
+	_ = t.WriteXML(writer, http.StatusOK, mediaType)
 }
