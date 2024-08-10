@@ -1,13 +1,13 @@
 package main
 
 import (
-	"database/sql"
 	"flag"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"html/template"
 	"log"
 	"net/http"
+	"simple-web-app/configuration"
 	"time"
 )
 
@@ -17,7 +17,7 @@ const port = ":4000"
 type application struct {
 	templateMap map[string]*template.Template
 	config      appConfig
-	DB          *sql.DB
+	App         *configuration.Application
 }
 
 type appConfig struct {
@@ -33,7 +33,7 @@ func main() {
 	}
 
 	flag.BoolVar(&app.config.useCache, "cache", false, "Use template cache")
-	flag.StringVar(&app.config.dsn, "dsn", ":@tcp(localhost:3306)/media_stream?parseTime=true&tls=false&collation=utf8_unicode_ci&timeout=5s", "Use DSN")
+	flag.StringVar(&app.config.dsn, "dsn", "root:@tcp(localhost:3306)/media_stream?parseTime=true&tls=false&collation=utf8_unicode_ci&timeout=5s", "Use DSN")
 	flag.Parse()
 
 	// get db
@@ -41,7 +41,8 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
-	app.DB = db
+
+	app.App = configuration.New(db)
 
 	server := &http.Server{
 		Addr:              port,
