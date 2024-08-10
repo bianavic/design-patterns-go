@@ -5,6 +5,12 @@
 {{ end }}
 
 {{ define "content" }}
+
+{{/*    <picture>*/}}
+{{/*        <source srcset="/static/music-albums/folklore.webp" type="image/webp" class="img img-fluid">*/}}
+{{/*        <img src="/static/music-albums/folklore.jpg" alt="albums" class="img-fluid">*/}}
+{{/*    </picture>*/}}
+
     <div class="container">
         <div class="row">
             <div class="col">
@@ -14,6 +20,7 @@
                 <table class="music-albums table table-striped table-compact">
                     <thead>
                     <tr>
+                        <th>Picture</th>
                         <th>Details</th>
                         <th>Name</th>
                         <th></th>
@@ -38,6 +45,14 @@
 
 {{ define "js" }}
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+
+        <script>
+            const pictureMap = {
+                1: "/static/music-albums/folklore.jpg",
+                2: "/static/music-albums/trustfall.png",
+            };
+        </script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             fetch("/api/music-albums", {method: "GET"})
@@ -54,12 +69,14 @@
                     table = document.querySelector(".music-albums tbody");
                     response.forEach(album => {
                         const row = table.insertRow();
-                        row.insertCell(0).innerText = album.details || 'N/A';
-                        row.insertCell(1).innerHTML = `<a href="/music-albums/${album.id}">${album.name}</a>`;
-                        row.insertCell(2).innerText = "";
+                        const pictureUrl = pictureMap[album.id] || 'default-picture.jpg'; // Use a default picture if id not found
+                        row.insertCell(0).innerHTML = `<img src="${pictureUrl}" alt="Album Picture" class="img-fluid" style="max-width: 100px;">`;
+                        row.insertCell(1).innerText = album.details || 'N/A';
+                        row.insertCell(2).innerHTML = `<a href="/music-albums/${album.id}">${album.name}</a>`;
                         row.insertCell(3).innerText = "";
-                        row.insertCell(4).innerHTML = `<div class="text-center">${album.media_type || 'N/A'}</div>`;
-                        row.insertCell(5).innerHTML = `<div class="text-center">${album.genre || 'N/A'}</div>`;
+                        row.insertCell(4).innerText = "";
+                        row.insertCell(5).innerHTML = `<div class="text-center">${album.media_type || 'N/A'}</div>`;
+                        row.insertCell(6).innerHTML = `<div class="text-center">${album.genre || 'N/A'}</div>`;
                     });
                 })
                 .catch(error => {
