@@ -1,0 +1,70 @@
+{{ template "base" . }}
+
+{{ define "css"}}
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+{{ end }}
+
+{{ define "content" }}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3 class="mt-4">Music Albums</h3>
+                <hr>
+
+                <table class="music-albums table table-striped table-compact">
+                    <thead>
+                    <tr>
+                        <th>Details</th>
+                        <th>Name</th>
+                        <th></th>
+                        <th></th>
+                        <th>
+                            <div class="text-center">Media Type</div>
+                        </th>
+                        <th>
+                            <div class="text-center">Genre</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Rows will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+{{ end }}
+
+{{ define "js" }}
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("/api/music-albums", {method: "GET"})
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network z was not ok');
+                    }
+                    return response.json();
+                })
+                .then(response => {
+                    if (!response.length) {
+                        return;
+                    }
+                    table = document.querySelector(".music-albums tbody");
+                    response.forEach(album => {
+                        const row = table.insertRow();
+                        row.insertCell(0).innerText = album.details || 'N/A';
+                        row.insertCell(1).innerHTML = `<a href="/music-albums/${album.id}">${album.name}</a>`;
+                        row.insertCell(2).innerText = "";
+                        row.insertCell(3).innerText = "";
+                        row.insertCell(4).innerHTML = `<div class="text-center">${album.media_type || 'N/A'}</div>`;
+                        row.insertCell(5).innerHTML = `<div class="text-center">${album.genre || 'N/A'}</div>`;
+                    });
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        });
+    </script>
+{{ end }}
