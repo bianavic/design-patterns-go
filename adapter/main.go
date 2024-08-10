@@ -77,18 +77,18 @@ func main() {
 	// with adapter, using JSON
 	jsonBackend := &JSONBackend{}
 	jsonAdapter := &RemoteService{Remote: jsonBackend}
-	tbFromJSON, _ := jsonAdapter.CallRemoteService()
+	toDoFromJSON, _ := jsonAdapter.CallRemoteService()
 
 	// with adapter, using XML
 	xmlBackend := &XMLBackend{}
 	xmlAdapter := &RemoteService{Remote: xmlBackend}
-	tbFromXML, err := xmlAdapter.CallRemoteService()
+	todoFromXML, err := xmlAdapter.CallRemoteService()
 	if err != nil {
 		log.Println(err)
 	}
 
-	fmt.Println("TODO from JSON adapter:\t", tbFromJSON.ID, tbFromJSON.Title, tbFromJSON.Completed)
-	fmt.Println("TODO from XML adapter:\t", tbFromXML.ID, tbFromXML.Title, tbFromXML.Completed)
+	fmt.Println("TODO from JSON adapter:\t", toDoFromJSON.ID, toDoFromJSON.Title, toDoFromJSON.Completed)
+	fmt.Println("TODO from XML adapter:\t", todoFromXML.ID, todoFromXML.Title, todoFromXML.Completed)
 }
 
 func GetRemoteData() *ToDo {
