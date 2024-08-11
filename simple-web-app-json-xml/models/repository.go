@@ -6,6 +6,7 @@ type Repository interface {
 	AllMusicAlbums() ([]*MusicAlbum, error)
 	GetMusicAlbumByID(id int) (*MusicAlbum, error)
 	RandomMusicAlbum() (*MusicAlbum, error)
+	GetMusicAlbumByName(name string) (*MusicAlbum, error)
 	//RandomMusicAlbumByGenre() (*MusicAlbum, error)
 	AllTelevision() ([]*Television, error)
 	GetTelevisionByID(id int) (*Television, error)
@@ -26,15 +27,14 @@ func newMysqlRepository(conn *sql.DB) Repository {
 	}
 }
 
-//
-//// wrapper for the *sql.DB type, to return a test repository
-//type testRepository struct {
-//	DB *sql.DB
-//}
-//
-//// factory method to return a new mysqlRepository
-//func newTestMysqlRepository(conn *sql.DB) Repository {
-//	return &testRepository{
-//		DB: nil,
-//	}
-//}
+// wrapper for the *sql.DB type, to return a test repository
+type testRepository struct {
+	DB *sql.DB
+}
+
+// factory method to return a new mysqlRepository
+func newTestMysqlRepository(conn *sql.DB) Repository {
+	return &testRepository{
+		DB: nil,
+	}
+}

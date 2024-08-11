@@ -19,10 +19,9 @@ type Models struct {
 func New(conn *sql.DB) *Models {
 	if conn != nil {
 		repo = newMysqlRepository(conn)
+	} else {
+		repo = newTestMysqlRepository(conn)
 	}
-	//else {
-	//	repo = newTestMysqlRepository(conn)
-	//}
 
 	return &Models{
 		MusicAlbum: MusicAlbum{},
@@ -101,6 +100,10 @@ func (m *MusicAlbum) Random() (*MusicAlbum, error) {
 
 func (m *MusicAlbum) Get(id int) (*MusicAlbum, error) {
 	return repo.GetMusicAlbumByID(id)
+}
+
+func (m *MusicAlbum) GetMusicAlbumByName(id string) (*MusicAlbum, error) {
+	return repo.GetMusicAlbumByName(id)
 }
 
 func (t *Television) All() ([]*Television, error) {

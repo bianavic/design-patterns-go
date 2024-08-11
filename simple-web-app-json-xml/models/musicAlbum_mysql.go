@@ -97,6 +97,31 @@ func (m *mysqlRepository) RandomMusicAlbum() (*MusicAlbum, error) {
 	return &musicAlbum, nil
 }
 
+func (m *mysqlRepository) GetMusicAlbumByName(name string) (*MusicAlbum, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	query := `select ID, Name, MediaType, Genre, coalesce(Details, ''), Country
+	   from media_stream.MusicAlbum where Name = ?`
+
+	row := m.DB.QueryRowContext(ctx, query, name)
+	var musicAlbum MusicAlbum
+
+	err := row.Scan(
+		&musicAlbum.ID,
+		&musicAlbum.Name,
+		&musicAlbum.MediaType,
+		&musicAlbum.Genre,
+		&musicAlbum.Details,
+		&musicAlbum.Country)
+	if err != nil {
+		log.Println("Internal Server Error", http.StatusInternalServerError)
+		return nil, err
+	}
+
+	return &musicAlbum, nil
+}
+
 //func (m *mysqlRepository) RandomMusicAlbumByGenre() (*MusicAlbum, error) {
 //	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 //	defer cancel()
