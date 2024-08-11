@@ -208,3 +208,28 @@ func (app *application) GetAllMusicAlbums(writer http.ResponseWriter, request *h
 
 	_ = t.WriteJSON(writer, http.StatusOK, tvShows)
 }
+
+/*
+STUB HANDLER
+new factory function for Entertainment with embbed music albums and tv shows
+*/
+func (app *application) EntertainmentFromAbstractFactory(writer http.ResponseWriter, request *http.Request) {
+	var t toolbox.Tools
+
+	// get albums from url;
+
+	// get tv shows from url
+
+	// create entertainment from abstract factory
+
+	// write result as JSON
+
+	name := chi.URLParam(request, "name")
+	e, err := app.App.Models.Entertainment.GetEntertainmentByName(name)
+	if err != nil {
+		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
+		return
+	}
+
+	_ = t.WriteJSON(writer, http.StatusOK, e)
+}

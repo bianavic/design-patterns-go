@@ -3,6 +3,7 @@ package entertainment
 import (
 	"errors"
 	"fmt"
+	"simple-web-app/cmd/web/adapters"
 	"simple-web-app/models"
 )
 
@@ -28,6 +29,8 @@ func (tff *TelevisionFromFactory) Show() string {
 
 type EntertainmentFactory interface {
 	newMedia() MediaInterface
+	NewEntertainmentWithMusicAlbums(music string) MediaInterface
+	NewEntertainmentWithTVShows(tvShow string) MediaInterface
 }
 
 type MusicAbstractFactory struct{}
@@ -35,6 +38,16 @@ type MusicAbstractFactory struct{}
 func (maf *MusicAbstractFactory) newMedia() MediaInterface {
 	return &MusicFromFactory{
 		Entertainment: &models.Song{},
+	}
+}
+
+func (maf *MusicAbstractFactory) NewEntertainmentWithMusicAlbums(music string) MediaInterface {
+	//app := configuration.GetInstance()
+	//album, _ := app.Models.MusicAlbum.GetMusicAlbumByName(music)
+	return &MusicFromFactory{
+		Entertainment: &models.Song{
+			//MediaType: album,
+		},
 	}
 }
 
@@ -46,6 +59,32 @@ func (taf *TelevisionAbstractFactory) newMedia() MediaInterface {
 	}
 }
 
+func (taf *TelevisionAbstractFactory) NewEntertainmentWithTVShows(tvShow string) MediaInterface {
+	//app := configuration.GetInstance()
+	//tv, _ := app.Models.Television.GetTelevisionByName(tvShow)
+	return &TelevisionFromFactory{
+		Entertainment: &models.TVShow{
+			//MediaType: tv,
+		},
+	}
+}
+
+//func NewEntertainmentFromAbstractFactory(media string) (MediaInterface, error) {
+//	switch media {
+//	case "music":
+//		var musicFactory MusicAbstractFactory
+//		music := musicFactory.newMedia()
+//		return music, nil
+//	case "television":
+//		var televisionFactory TelevisionAbstractFactory
+//		television := televisionFactory.newMedia()
+//		return television, nil
+//	default:
+//		return nil, errors.New("invalid media supplied")
+//	}
+//}
+
+// refactor
 func NewEntertainmentFromAbstractFactory(media string) (MediaInterface, error) {
 	switch media {
 	case "music":
@@ -58,5 +97,23 @@ func NewEntertainmentFromAbstractFactory(media string) (MediaInterface, error) {
 		return television, nil
 	default:
 		return nil, errors.New("invalid media supplied")
+	}
+}
+
+func NewEntertainmentTypesFromAbstractFactory(media, music string, tvShow string, adapter *adapters.RemoteService) (MediaInterface, error) {
+	switch media {
+	case "music":
+		var musicFactory MusicAbstractFactory
+		album := musicFactory.NewEntertainmentWithMusicAlbums(music)
+		// return music with music album embedded
+		return album, nil
+	case "television":
+		var televisionFactory TelevisionAbstractFactory
+		tv := televisionFactory.NewEntertainmentWithTVShows(tvShow)
+		// return television with tv show embedded
+		return tv, nil
+
+	default:
+		return nil, errors.New("invalid medias supplied")
 	}
 }
