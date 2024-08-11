@@ -22,6 +22,7 @@ type TVShowInterface interface {
 
 type TelevisionInterface interface {
 	GetAllTelevisions() ([]*models.Television, error)
+	GetTelevisionByName(name string) (*models.Television, error)
 }
 
 type RemoteService struct {
@@ -91,6 +92,50 @@ func (jb *JSONBackend) GetAllMusicAlbums() ([]*models.MusicAlbum, error) {
 	return albums, nil
 }
 
+func (rs *RemoteService) GetAlbumsByName(name string) (*models.MusicAlbum, error) {
+	resp, err := http.Get("http://localhost:8081/api/music-album/" + name + "/json")
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var album models.MusicAlbum
+	err = json.Unmarshal(body, &album)
+	if err != nil {
+		return nil, err
+	}
+
+	return &album, nil
+}
+
+func (xb *XMLBackend) GetAlbumsByName(name string) (*models.MusicAlbum, error) {
+	resp, err := http.Get("http://localhost:8081/api/music-album/" + name + "/xml")
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var album models.MusicAlbum
+	err = xml.Unmarshal(body, &album)
+	if err != nil {
+		return nil, err
+	}
+
+	return &album, nil
+}
+
 func (rs *RemoteService) GetAllTelevisions() ([]*models.Television, error) {
 	return rs.Remote.GetAllTelevisions()
 }
@@ -116,6 +161,51 @@ func (jb *JSONBackend) GetAllTelevisions() ([]*models.Television, error) {
 	}
 
 	return televisions, nil
+}
+
+func (jb *JSONBackend) GetTelevisionByName(name string) (*models.Television, error) {
+	// logic to connect to json backend
+	resp, err := http.Get("http://localhost:8081/api/television/" + name + "/json")
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var television models.Television
+	err = json.Unmarshal(body, &television)
+	if err != nil {
+		return nil, err
+	}
+
+	return &television, nil
+}
+
+func (xb *XMLBackend) GetTelevisionByName(name string) (*models.Television, error) {
+	resp, err := http.Get("http://localhost:8081/api/television/" + name + "/xml")
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var tv models.Television
+	err = xml.Unmarshal(body, &tv)
+	if err != nil {
+		return nil, err
+	}
+
+	return &tv, nil
 }
 
 func (rs *RemoteService) GetAllEntertainments() ([]*models.Entertainment, error) {

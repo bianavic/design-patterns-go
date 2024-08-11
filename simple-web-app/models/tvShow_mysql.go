@@ -54,3 +54,33 @@ func (m *mysqlRepository) AllTVShows() ([]*TVShow, error) {
 
 	return tvShows, nil
 }
+
+func (m *mysqlRepository) GetTVShowByName(name string) (*TVShow, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	query := `select tv.ID, tv.TelevisionID, tv.Year, tv.PersonID, tv.Title, tv.Director,
+					 t.Name as MediaType, p.Name as Person
+			  from media_stream.TVShow tv
+			  join media_stream.Television t on tv.TelevisionID = t.ID
+			  join media_stream.Person p on tv.PersonID = p.ID
+			  where tv.Title = ?`
+
+	var tvShow TVShow
+
+	err := m.DB.QueryRowContext(ctx, query, name).Scan(
+		&tvShow.ID,
+		&tvShow.TelevisionID,
+		&tvShow.Year,
+		&tvShow.PersonID,
+		&tvShow.Title,
+		&tvShow.Director,
+		&tvShow.MediaType,
+		&tvShow.Person)
+	if err != nil {
+		log.Println("Internal Server Error", http.StatusInternalServerError)
+		return nil, err
+	}
+
+	return &tvShow, nil
+}
