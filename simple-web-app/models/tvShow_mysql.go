@@ -60,11 +60,13 @@ func (m *mysqlRepository) GetTVShowByName(name string) (*TVShow, error) {
 	defer cancel()
 
 	query := `select tv.ID, tv.TelevisionID, tv.Year, tv.PersonID, tv.Title, tv.Director,
-					 t.Name as MediaType, p.Name as Person
-			  from media_stream.TVShow tv
-			  join media_stream.Television t on tv.TelevisionID = t.ID
-			  join media_stream.Person p on tv.PersonID = p.ID
-			  where tv.Title = ?`
+                     t.Name as MediaType, p.Name as Person
+              from media_stream.TVShow tv
+              join media_stream.Television t on tv.TelevisionID = t.ID
+              join media_stream.Person p on tv.PersonID = p.ID
+              join media_stream.Television t on tv.TelevisionID = t.ID
+              join media_stream.Person p on tv.PersonID = p.ID
+              where Title = ?`
 
 	var tvShow TVShow
 

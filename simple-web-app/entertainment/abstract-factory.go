@@ -3,6 +3,7 @@ package entertainment
 import (
 	"errors"
 	"fmt"
+	"log"
 	"simple-web-app/cmd/web/adapters"
 	"simple-web-app/configuration"
 	"simple-web-app/models"
@@ -12,29 +13,30 @@ type MediaInterface interface {
 	Show() string
 }
 
+type EntertainmentFactoryInterface interface {
+	newMedia() MediaInterface
+	newMediaWithMediaType(media string) MediaInterface
+}
+
 type MusicFromFactory struct {
 	Entertainment *models.Song
 }
+
+type TelevisionFromFactory struct {
+	Entertainment *models.Television
+}
+
+type MusicAbstractFactory struct{}
+
+type TelevisionAbstractFactory struct{}
 
 func (mff *MusicFromFactory) Show() string {
 	return fmt.Sprintf("Media type is: %s", mff.Entertainment.MediaType.Name)
 }
 
-type TelevisionFromFactory struct {
-	Entertainment *models.TVShow
-}
-
 func (tff *TelevisionFromFactory) Show() string {
-	return fmt.Sprintf("Media Type is: %s", tff.Entertainment.MediaType.Name)
+	return fmt.Sprintf("Media Type is: %s", tff.Entertainment.MediaType.Title)
 }
-
-type EntertainmentFactory interface {
-	newMedia() MediaInterface
-	NewEntertainmentWithMusicAlbums(music string) MediaInterface
-	NewEntertainmentWithTVShows(tvShow string) MediaInterface
-}
-
-type MusicAbstractFactory struct{}
 
 func (maf *MusicAbstractFactory) newMedia() MediaInterface {
 	return &MusicFromFactory{
@@ -42,50 +44,35 @@ func (maf *MusicAbstractFactory) newMedia() MediaInterface {
 	}
 }
 
-func (maf *MusicAbstractFactory) NewEntertainmentWithMusicAlbums(music string) MediaInterface {
+func (mff *TelevisionAbstractFactory) newMedia() MediaInterface {
+	return &TelevisionFromFactory{
+		Entertainment: &models.Television{},
+	}
+}
+
+func (mff *MusicAbstractFactory) newMediaWithMediaType(mt string) MediaInterface {
 	app := configuration.GetInstance()
-	album, _ := app.Models.MusicAlbum.GetMusicAlbumByName(music)
+	mediaType, _ := app.Models.MusicAlbum.GetMusicAlbumByName(mt)
 	return &MusicFromFactory{
 		Entertainment: &models.Song{
-			// because Cannot use 'album' (type *MusicAlbum) as the type MusicAlbum
-			// DEFERENCE the pointer to get the value - MediaType: *album
-			MediaType: *album,
+			MediaType: *mediaType,
 		},
 	}
 }
 
-type TelevisionAbstractFactory struct{}
-
-func (taf *TelevisionAbstractFactory) newMedia() MediaInterface {
-	return &TelevisionFromFactory{
-		Entertainment: &models.TVShow{},
-	}
-}
-
-func (taf *TelevisionAbstractFactory) NewEntertainmentWithTVShows(tvShow string) MediaInterface {
+func (taf *TelevisionAbstractFactory) newMediaWithMediaType(mt string) MediaInterface {
 	app := configuration.GetInstance()
-	tv, _ := app.Models.Television.GetTelevisionByName(tvShow)
+	mediaType, err := app.TVShowService.GetTVShowByName(mt)
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
 	return &TelevisionFromFactory{
-		Entertainment: &models.TVShow{
-			MediaType: *tv,
+		Entertainment: &models.Television{
+			MediaType: *mediaType,
 		},
 	}
 }
-
-//func NewEntertainmentFromAbstractFactory(media string) (MediaInterface, error) {
-//	switch media {
-//	case "music":
-//		var musicFactory MusicAbstractFactory
-//		music := musicFactory.newMedia()
-//		return music, nil
-//	case "television":
-//		var televisionFactory TelevisionAbstractFactory
-//		television := televisionFactory.newMedia()
-//		return television, nil
-//	default:
-//		return nil, errors.New("invalid media supplied")
-//	}
-//}
 
 // refactor
 func NewEntertainmentFromAbstractFactory(media string) (MediaInterface, error) {
@@ -103,16 +90,16 @@ func NewEntertainmentFromAbstractFactory(media string) (MediaInterface, error) {
 	}
 }
 
-func NewEntertainmentTypesFromAbstractFactory(media, music string, tvShow string, adapter *adapters.RemoteService) (MediaInterface, error) {
+func NewEntertainmentMediaTypeFromAbstractFactory(media, music string, tvShow string, adapter *adapters.RemoteService) (MediaInterface, error) {
 	switch media {
 	case "music":
 		var musicFactory MusicAbstractFactory
-		album := musicFactory.NewEntertainmentWithMusicAlbums(music)
+		album := musicFactory.newMediaWithMediaType(music)
 		// return music with music album embedded
 		return album, nil
 	case "television":
 		var televisionFactory TelevisionAbstractFactory
-		tv := televisionFactory.NewEntertainmentWithTVShows(tvShow)
+		tv := televisionFactory.newMediaWithMediaType(tvShow)
 		// return television with tv show embedded
 		return tv, nil
 

@@ -173,22 +173,10 @@ func (app *application) CreateTelevisionWithBuilder(writer http.ResponseWriter, 
 	_ = t.WriteJSON(writer, http.StatusOK, m)
 }
 
-//func (app *application) GetAllEntertainment(writer http.ResponseWriter, request *http.Request) {
-//	var t toolbox.Tools
-//
-//	e, err := app.entertainmentService.GetAllEntertainment()
-//	if err != nil {
-//		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
-//		return
-//	}
-//
-//	_ = t.WriteJSON(writer, http.StatusOK, e)
-//}
-
 func (app *application) GetAllTVShows(writer http.ResponseWriter, request *http.Request) {
 	var t toolbox.Tools
 
-	tvShows, err := app.App.Models.TVShow.All()
+	tvShows, err := app.App.TVShowService.GetAllTVShows()
 	if err != nil {
 		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
 		return
@@ -216,16 +204,8 @@ new factory function for Entertainment with embbed music albums and tv shows
 func (app *application) EntertainmentFromAbstractFactory(writer http.ResponseWriter, request *http.Request) {
 	var t toolbox.Tools
 
-	// get albums from url;
-
-	// get tv shows from url
-
-	// create entertainment from abstract factory
-
-	// write result as JSON
-
 	name := chi.URLParam(request, "name")
-	e, err := app.App.Models.Entertainment.GetEntertainmentByName(name)
+	e, err := app.App.Models.Entertainment.GetEntertainmentByMediaType(name)
 	if err != nil {
 		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
 		return

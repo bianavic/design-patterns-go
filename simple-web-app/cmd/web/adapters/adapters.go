@@ -14,10 +14,13 @@ type MusicAlbumsInterface interface {
 
 type EntertainmentInterface interface {
 	GetAllTEntertainments() ([]*models.Entertainment, error)
+	GetEntertainmentByMediaType(mt string) (*models.Entertainment, error)
+	GetAllMediaType() ([]*models.Entertainment, error)
 }
 
 type TVShowInterface interface {
 	GetAllTVShows() ([]*models.TVShow, error)
+	GetTVShowByName(name string) (*models.TVShow, error)
 }
 
 type TelevisionInterface interface {
@@ -114,6 +117,7 @@ func (rs *RemoteService) GetAlbumsByName(name string) (*models.MusicAlbum, error
 	return &album, nil
 }
 
+// implement interface to xml backend
 func (xb *XMLBackend) GetAlbumsByName(name string) (*models.MusicAlbum, error) {
 	resp, err := http.Get("http://localhost:8081/api/music-album/" + name + "/xml")
 	if err != nil {
@@ -186,6 +190,7 @@ func (jb *JSONBackend) GetTelevisionByName(name string) (*models.Television, err
 	return &television, nil
 }
 
+// implement interface to xml backend
 func (xb *XMLBackend) GetTelevisionByName(name string) (*models.Television, error) {
 	resp, err := http.Get("http://localhost:8081/api/television/" + name + "/xml")
 	if err != nil {
@@ -237,6 +242,10 @@ func (jb *JSONBackend) GetAllEntertainments() ([]*models.Entertainment, error) {
 
 func (rs *RemoteService) GetAllTVShows() ([]*models.TVShow, error) {
 	return rs.TVRemote.GetAllTVShows()
+}
+
+func (rs *RemoteService) GetTVShowByName(name string) (*models.TVShow, error) {
+	return rs.TVRemote.GetTVShowByName(name)
 }
 
 func (jb *JSONBackend) GetAllTVShows() ([]*models.TVShow, error) {
@@ -292,7 +301,3 @@ func (xb *XMLBackend) GetAllMusicAlbums() ([]*models.MusicAlbum, error) {
 
 	return albums.Albums, nil
 }
-
-//func (rs *RemoteService) GetAllMusicAlbumsXML() ([]*models.MusicAlbum, error) {
-//	return rs.MRemote.GetAllMusicAlbums()
-//}

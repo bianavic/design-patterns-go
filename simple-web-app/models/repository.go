@@ -4,8 +4,11 @@ import "database/sql"
 
 type Repository interface {
 	AllMusicAlbums() ([]*MusicAlbum, error)
-	AllTVShows() ([]*TVShow, error)
 	GetMusicAlbumByName(name string) (*MusicAlbum, error)
+	AllTVShows() ([]*TVShow, error)
+	GetTVShowByName(name string) (*TVShow, error)
+	AllEntertainment() ([]*Entertainment, error)
+	GetEntertainmentByMediaType(mediaType string) (*Entertainment, error)
 }
 
 // simple wrapper for sql.DB type, used to return MySQL repository

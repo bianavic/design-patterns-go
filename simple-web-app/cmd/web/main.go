@@ -16,11 +16,9 @@ const port = ":4000"
 
 // receiver for handlers
 type application struct {
-	templateMap   map[string]*template.Template
-	config        appConfig
-	App           *configuration.Application
-	remoteService *adapters.RemoteService
-	albumService  *adapters.RemoteService
+	templateMap map[string]*template.Template
+	config      appConfig
+	App         *configuration.Application
 }
 
 type appConfig struct {
@@ -51,9 +49,7 @@ func main() {
 	xmlBackend := adapters.XMLBackend{}
 	xmlAdapter := adapters.RemoteService{Remote: &xmlBackend}
 
-	app.App = configuration.New(db)
-	//app.remoteService = &jsonAdapter
-	app.albumService = &xmlAdapter
+	app.App = configuration.New(db, &xmlAdapter)
 
 	server := &http.Server{
 		Addr:              port,

@@ -6,8 +6,9 @@ import "database/sql"
 var repo Repository
 
 type Models struct {
-	MusicAlbum MusicAlbum
-	TVShow     TVShow
+	MusicAlbum    MusicAlbum
+	TVShow        TVShow
+	Entertainment Entertainment
 }
 
 // factory function
@@ -19,8 +20,17 @@ func New(conn *sql.DB) *Models {
 	}
 
 	return &Models{
-		MusicAlbum: MusicAlbum{},
+		MusicAlbum:    MusicAlbum{},
+		TVShow:        TVShow{},
+		Entertainment: Entertainment{},
 	}
+}
+
+type Entertainment struct {
+	Media       string `json:"media" xml:"Media"`
+	MediaType   string `json:"media_type" xml:"MediaType"`
+	Type        string `json:"type" xml:"Type"`
+	Description string `json:"description" xml:"Description"`
 }
 
 type MusicAlbum struct {
@@ -36,7 +46,7 @@ type MusicAlbum struct {
 type Television struct {
 	ID          int    `json:"id" xml:"ID"`
 	Name        string `json:"name" xml:"Name"`
-	MediaType   string `json:"media_type" xml:"MediaType"`
+	MediaType   TVShow `json:"media_type" xml:"MediaType"`
 	Genre       string `json:"genre" xml:"Genre"`
 	Details     string `json:"details" xml:"Details"`
 	Country     string `json:"country" xml:"Country"`
@@ -55,14 +65,14 @@ type Song struct {
 }
 
 type TVShow struct {
-	ID           int        `json:"id" xml:"ID"`
-	TelevisionID int        `json:"television_id" xml:"TelevisionID"`
-	Year         int        `json:"year" xml:"Year"`
-	PersonID     int        `json:"person_id" xml:"PersonID"`
-	Title        string     `json:"title" xml:"Title"`
-	Director     string     `json:"director" xml:"Director"`
-	MediaType    Television `json:"television" xml:"MediaType"`
-	Person       Person     `json:"person" xml:"Person"`
+	ID           int    `json:"id" xml:"ID"`
+	TelevisionID int    `json:"television_id" xml:"TelevisionID"`
+	Year         int    `json:"year" xml:"Year"`
+	PersonID     int    `json:"person_id" xml:"PersonID"`
+	Title        string `json:"title" xml:"Title"`
+	Director     string `json:"director" xml:"Director"`
+	MediaType    string `json:"media_type" xml:"MediaType"`
+	Person       Person `json:"person" xml:"Person"`
 }
 
 type Person struct {
@@ -77,13 +87,6 @@ type Person struct {
 	Televisions []*Television `json:"televisions" xml:"Televisions"`
 }
 
-type Entertainment struct {
-	Media       string `json:"media" xml:"Media"`
-	MediaType   string `json:"media_type" xml:"MediaType"`
-	Type        string `json:"type" xml:"Type"`
-	Description string `json:"description" xml:"Description"`
-}
-
 func (m *MusicAlbum) All() ([]*MusicAlbum, error) {
 	return repo.AllMusicAlbums()
 }
@@ -96,6 +99,14 @@ func (m *MusicAlbum) GetMusicAlbumByName(name string) (*MusicAlbum, error) {
 	return repo.GetMusicAlbumByName(name)
 }
 
-func (m *Television) AllTVShows() ([]*Television, error) {
-	return repo.AllTVShows()
+func (tv *Entertainment) AllEntertainment() ([]*Entertainment, error) {
+	return repo.AllEntertainment()
+}
+
+func (tv *TVShow) GetTVShowByName(name string) (*TVShow, error) {
+	return repo.GetTVShowByName(name)
+}
+
+func (e *Entertainment) GetEntertainmentByMediaType(mediaType string) (*Entertainment, error) {
+	return repo.GetEntertainmentByMediaType(mediaType)
 }
