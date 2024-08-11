@@ -172,3 +172,27 @@ func (app *application) CreateTelevisionWithBuilder(writer http.ResponseWriter, 
 	// send to user as a response
 	_ = t.WriteJSON(writer, http.StatusOK, m)
 }
+
+//func (app *application) GetAllEntertainment(writer http.ResponseWriter, request *http.Request) {
+//	var t toolbox.Tools
+//
+//	e, err := app.entertainmentService.GetAllEntertainment()
+//	if err != nil {
+//		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
+//		return
+//	}
+//
+//	_ = t.WriteJSON(writer, http.StatusOK, e)
+//}
+
+func (app *application) GetAllTVShows(writer http.ResponseWriter, request *http.Request) {
+	var t toolbox.Tools
+
+	tvShows, err := app.App.Models.TVShow.All()
+	if err != nil {
+		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
+		return
+	}
+
+	_ = t.WriteJSON(writer, http.StatusOK, tvShows)
+}

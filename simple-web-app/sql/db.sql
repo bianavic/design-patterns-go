@@ -61,7 +61,7 @@ CREATE TABLE Entertainment (
 -- Insert sample data
 INSERT INTO MusicAlbum (ID, Name, MediaType, Genre, Details, Country, ReleaseDate) VALUES
                                                                                        (1, 'Folklore', 'CD', 'Indie folk', 'Folklore is the eighth studio album by the American singer-songwriter Taylor Swift', 'USA', '2020-07-24'),
-                                                                                       (2, 'TrustFall', 'Vinyl', 'Pop', 'Trustfall is the ninth studio album by American singer Pink2', 'USA', '2023-02-17');
+                                                                                       (2, 'TrustFall', 'Vinyl', 'Pop', 'Trustfall is the ninth studio album by American singer Pink', 'USA', '2023-02-17');
 
 INSERT INTO Television (ID, Name, MediaType, Genre, Details, Country, ReleaseDate) VALUES
                                                                                        (1, 'Voice', 'Streaming', 'Drama', 'Moo Jin-hyuk (Jang Hyuk) is a "mad dog" detective who becomes guilt-ridden after his wife was murdered while he was at work. Kang Kwon-joo (Lee Ha-na) is a tough policewoman who is gifted with perfect psycho-acoustics skills and went for voice profiling', 'Korea', '2019-06-11'),
