@@ -301,3 +301,20 @@ func (xb *XMLBackend) GetAllMusicAlbums() ([]*models.MusicAlbum, error) {
 
 	return albums.Albums, nil
 }
+
+type TestBackend struct{}
+
+func (tb *TestBackend) GetAllMusicAlbums() ([]*models.MusicAlbum, error) {
+	albums := []*models.MusicAlbum{
+		&models.MusicAlbum{
+			ID:          1,
+			Name:        "Abbey Road",
+			MediaType:   "CD",
+			Genre:       "Rock",
+			Details:     "The Beatles",
+			Country:     "UK",
+			ReleaseDate: "1969-09-26",
+		},
+	}
+	return albums, nil
+}
