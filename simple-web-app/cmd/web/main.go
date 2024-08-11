@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"simple-web-app/cmd/web/adapters"
 	"simple-web-app/configuration"
 	"time"
 )
@@ -15,9 +16,10 @@ const port = ":4000"
 
 // receiver for handlers
 type application struct {
-	templateMap map[string]*template.Template
-	config      appConfig
-	App         *configuration.Application
+	templateMap   map[string]*template.Template
+	config        appConfig
+	App           *configuration.Application
+	remoteService *adapters.RemoteService
 }
 
 type appConfig struct {
@@ -42,7 +44,11 @@ func main() {
 		log.Panic(err)
 	}
 
+	jsonBackend := adapters.JSONBackend{}
+	jsonAdapter := adapters.RemoteService{Remote: &jsonBackend}
+
 	app.App = configuration.New(db)
+	app.remoteService = &jsonAdapter
 
 	server := &http.Server{
 		Addr:              port,

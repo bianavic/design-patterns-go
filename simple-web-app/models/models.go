@@ -7,15 +7,17 @@ var repo Repository
 
 type Models struct {
 	MusicAlbum MusicAlbum
+	TVShow     TVShow
 }
 
 // factory function
 func New(conn *sql.DB) *Models {
 	if conn != nil {
 		repo = newMysqlRepository(conn)
-	} else {
-		repo = newTestMysqlRepository(conn)
 	}
+	//else {
+	//	repo = newTestMysqlRepository(conn)
+	//}
 
 	return &Models{
 		MusicAlbum: MusicAlbum{},
@@ -30,10 +32,6 @@ type MusicAlbum struct {
 	Details     string `json:"details"`
 	Country     string `json:"country"`
 	ReleaseDate string `json:"release_date"`
-}
-
-func (m *MusicAlbum) All() ([]*MusicAlbum, error) {
-	return repo.AllMusicAlbums()
 }
 
 type Television struct {
@@ -85,4 +83,12 @@ type Entertainment struct {
 	MediaType   string `json:"media_type"`
 	Type        string `json:"type"`
 	Description string `json:"description"`
+}
+
+func (m *MusicAlbum) All() ([]*MusicAlbum, error) {
+	return repo.AllMusicAlbums()
+}
+
+func (tv *TVShow) All() ([]*TVShow, error) {
+	return repo.AllTVShows()
 }
