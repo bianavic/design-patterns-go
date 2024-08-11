@@ -25,64 +25,64 @@ func New(conn *sql.DB) *Models {
 }
 
 type MusicAlbum struct {
-	ID          int    `json:"id"`
-	Name        string `json:"name"`
-	MediaType   string `json:"media_type"`
-	Genre       string `json:"genre"`
-	Details     string `json:"details"`
-	Country     string `json:"country"`
-	ReleaseDate string `json:"release_date"`
+	ID          int    `json:"id" xml:"ID"`
+	Name        string `json:"name" xml:"Name"`
+	MediaType   string `json:"media_type" xml:"MediaType"`
+	Genre       string `json:"genre" xml:"Genre"`
+	Details     string `json:"details" xml:"Details"`
+	Country     string `json:"country" xml:"Country"`
+	ReleaseDate string `json:"release_date" xml:"ReleaseDate"`
 }
 
 type Television struct {
-	ID          int    `json:"id"`
-	Name        string `json:"name"`
-	MediaType   string `json:"media_type"`
-	Genre       string `json:"genre"`
-	Details     string `json:"details"`
-	Country     string `json:"country"`
-	ReleaseDate string `json:"release_date"`
+	ID          int    `json:"id" xml:"ID"`
+	Name        string `json:"name" xml:"Name"`
+	MediaType   string `json:"media_type" xml:"MediaType"`
+	Genre       string `json:"genre" xml:"Genre"`
+	Details     string `json:"details" xml:"Details"`
+	Country     string `json:"country" xml:"Country"`
+	ReleaseDate string `json:"release_date" xml:"ReleaseDate"`
 }
 
 type Song struct {
-	ID           int        `json:"id"`
-	MusicAlbumID int        `json:"music_album_id"`
-	Year         int        `json:"year"`
-	PersonID     int        `json:"person_id"`
-	SongTitle    string     `json:"song_title"`
-	Artist       string     `json:"artist"`
-	MediaType    MusicAlbum `json:"album"`
-	Person       Person     `json:"person"`
+	ID           int        `json:"id" xml:"ID"`
+	MusicAlbumID int        `json:"music_album_id" xml:"MusicAlbumID"`
+	Year         int        `json:"year" xml:"Year"`
+	PersonID     int        `json:"person_id" xml:"PersonID"`
+	SongTitle    string     `json:"song_title" xml:"SongTitle"`
+	Artist       string     `json:"artist" xml:"Artist"`
+	MediaType    MusicAlbum `json:"album" xml:"MediaType"`
+	Person       Person     `json:"person" xml:"Person"`
 }
 
 type TVShow struct {
-	ID           int        `json:"id"`
-	TelevisionID int        `json:"television_id"`
-	Year         int        `json:"year"`
-	PersonID     int        `json:"person_id"`
-	Title        string     `json:"title"`
-	Director     string     `json:"director"`
-	MediaType    Television `json:"television"`
-	Person       Person     `json:"person"`
+	ID           int        `json:"id" xml:"ID"`
+	TelevisionID int        `json:"television_id" xml:"TelevisionID"`
+	Year         int        `json:"year" xml:"Year"`
+	PersonID     int        `json:"person_id" xml:"PersonID"`
+	Title        string     `json:"title" xml:"Title"`
+	Director     string     `json:"director" xml:"Director"`
+	MediaType    Television `json:"television" xml:"MediaType"`
+	Person       Person     `json:"person" xml:"Person"`
 }
 
 type Person struct {
-	ID          int           `json:"id"`
-	Name        string        `json:"name"`
-	Address     string        `json:"address"`
-	Country     string        `json:"country"`
-	ZipCode     string        `json:"zip_code"`
-	Email       string        `json:"email"`
-	Active      int           `json:"active"`
-	MusicAlbums []*MusicAlbum `json:"music_albums"`
-	Televisions []*Television `json:"televisions"`
+	ID          int           `json:"id" xml:"ID"`
+	Name        string        `json:"name" xml:"Name"`
+	Address     string        `json:"address" xml:"Address"`
+	Country     string        `json:"country" xml:"Country"`
+	ZipCode     string        `json:"zip_code" xml:"ZipCode"`
+	Email       string        `json:"email" xml:"Email"`
+	Active      int           `json:"active" xml:"Active"`
+	MusicAlbums []*MusicAlbum `json:"music_albums" xml:"MusicAlbums"`
+	Televisions []*Television `json:"televisions" xml:"Televisions"`
 }
 
 type Entertainment struct {
-	Media       string `json:"media"`
-	MediaType   string `json:"media_type"`
-	Type        string `json:"type"`
-	Description string `json:"description"`
+	Media       string `json:"media" xml:"Media"`
+	MediaType   string `json:"media_type" xml:"MediaType"`
+	Type        string `json:"type" xml:"Type"`
+	Description string `json:"description" xml:"Description"`
 }
 
 func (m *MusicAlbum) All() ([]*MusicAlbum, error) {
