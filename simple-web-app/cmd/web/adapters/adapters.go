@@ -2,6 +2,7 @@ package adapters
 
 import (
 	"encoding/json"
+	"encoding/xml"
 	"io"
 	"net/http"
 	"simple-web-app/models"
@@ -19,6 +20,10 @@ type TVShowInterface interface {
 	GetAllTVShows() ([]*models.TVShow, error)
 }
 
+type TelevisionInterface interface {
+	GetAllTelevisions() ([]*models.Television, error)
+}
+
 type RemoteService struct {
 	Remote   TelevisionInterface
 	ERemote  EntertainmentInterface
@@ -26,8 +31,38 @@ type RemoteService struct {
 	TVRemote TVShowInterface
 }
 
-// setup adapter
+// setup json adapter
 type JSONBackend struct{}
+
+// setup xml adapter
+type XMLBackend struct{}
+
+func (xb *XMLBackend) GetAllTelevisions() ([]*models.Television, error) {
+	resp, err := http.Get("http://localhost:8081/api/televisions/all/xml")
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	type televisions struct {
+		XMLName     xml.Name             `xml:"televisions"`
+		Televisions []*models.Television `xml:"television"`
+	}
+
+	var tvs televisions
+	err = xml.Unmarshal(body, &tvs)
+	if err != nil {
+		return nil, err
+	}
+
+	return tvs.Televisions, nil
+}
 
 func (rs *RemoteService) GetAllMusicAlbums() ([]*models.MusicAlbum, error) {
 	return rs.MRemote.GetAllMusicAlbums()
@@ -54,10 +89,6 @@ func (jb *JSONBackend) GetAllMusicAlbums() ([]*models.MusicAlbum, error) {
 	}
 
 	return albums, nil
-}
-
-type TelevisionInterface interface {
-	GetAllTelevisions() ([]*models.Television, error)
 }
 
 func (rs *RemoteService) GetAllTelevisions() ([]*models.Television, error) {
@@ -139,4 +170,39 @@ func (jb *JSONBackend) GetAllTVShows() ([]*models.TVShow, error) {
 	}
 
 	return tvShows, nil
+}
+
+// implement interface to xml backend
+func (xb *XMLBackend) GetAllMusicAlbums() ([]*models.MusicAlbum, error) {
+	resp, err := http.Get("http://localhost:8081/api/music-albums/all/xml")
+	if err != nil {
+		return nil, err
+	}
+
+	// prevents resource leak
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	// consume xml
+	type musicAlbums struct {
+		//XMLName xml.Name `xml:"musicAlbums"`
+		XMLName struct{}             `xml:"music-albums"`
+		Albums  []*models.MusicAlbum `xml:"music-albums"`
+	}
+
+	var albums musicAlbums
+	err = xml.Unmarshal(body, &albums)
+	if err != nil {
+		return nil, err
+	}
+
+	return albums.Albums, nil
+}
+
+func (rs *RemoteService) GetAllMusicAlbumsXML() ([]*models.MusicAlbum, error) {
+	return rs.MRemote.GetAllMusicAlbums()
 }
