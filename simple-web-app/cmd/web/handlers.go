@@ -196,3 +196,15 @@ func (app *application) GetAllTVShows(writer http.ResponseWriter, request *http.
 
 	_ = t.WriteJSON(writer, http.StatusOK, tvShows)
 }
+
+func (app *application) GetAllMusicAlbums(writer http.ResponseWriter, request *http.Request) {
+	var t toolbox.Tools
+
+	tvShows, err := app.App.Models.MusicAlbum.All()
+	if err != nil {
+		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
+		return
+	}
+
+	_ = t.WriteJSON(writer, http.StatusOK, tvShows)
+}

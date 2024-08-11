@@ -20,6 +20,7 @@ type application struct {
 	config        appConfig
 	App           *configuration.Application
 	remoteService *adapters.RemoteService
+	albumService  *adapters.RemoteService
 }
 
 type appConfig struct {
@@ -52,7 +53,7 @@ func main() {
 
 	app.App = configuration.New(db)
 	//app.remoteService = &jsonAdapter
-	app.remoteService = &xmlAdapter
+	app.albumService = &xmlAdapter
 
 	server := &http.Server{
 		Addr:              port,

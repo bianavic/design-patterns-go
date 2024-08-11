@@ -14,10 +14,9 @@ type Models struct {
 func New(conn *sql.DB) *Models {
 	if conn != nil {
 		repo = newMysqlRepository(conn)
+	} else {
+		repo = newTestMysqlRepository(nil)
 	}
-	//else {
-	//	repo = newTestMysqlRepository(conn)
-	//}
 
 	return &Models{
 		MusicAlbum: MusicAlbum{},

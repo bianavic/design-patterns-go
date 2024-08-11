@@ -62,7 +62,7 @@ func (app *application) routes() http.Handler {
 	mux.Get("/music-video-clips", app.ShowMusicSongs)
 	mux.Get("/tv-shows", app.ShowTVShows)
 
-	mux.Get("/api/music-albums", app.GetAllMusicAlbumsJSON)
+	mux.Get("/api/music-albums", app.GetAllMusicAlbums)
 	mux.Get("/api/tv-shows-json", app.GetAllTVShows)
 
 	//mux.Get("/api/entertainment", app.GetAllEntertainmentJSON)

@@ -22,3 +22,20 @@ func TestApplication_GetAllMusicAlbumsJSON(t *testing.T) {
 	}
 
 }
+
+func TestApplication_GetAllMusicAlbumsXML(t *testing.T) {
+
+	// create request
+	req, _ := http.NewRequest("GET", "/api/music-albums", nil)
+	// create a response recorder
+	response := httptest.NewRecorder()
+	// create handler
+	handler := http.HandlerFunc(testApp.GetAllMusicAlbums)
+	// serve the handler
+	handler.ServeHTTP(response, req)
+	// check response
+	if response.Code != http.StatusOK {
+		t.Errorf("expected status 200 but got %d", response.Code)
+	}
+
+}

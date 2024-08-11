@@ -19,12 +19,16 @@ func newMysqlRepository(conn *sql.DB) Repository {
 	}
 }
 
-//type testRepository struct {
-//	DB *sql.DB
-//}
-//
-//func newTestMysqlRepository(conn *sql.DB) Repository {
-//	return &testRepository{
-//		DB: nil,
-//	}
-//}
+type testRepository struct {
+	DB *sql.DB
+}
+
+func newTestMysqlRepository(conn *sql.DB) Repository {
+	return &testRepository{
+		DB: nil,
+	}
+}
+
+func (m *testRepository) AllTVShows() ([]*TVShow, error) {
+	return []*TVShow{}, nil
+}

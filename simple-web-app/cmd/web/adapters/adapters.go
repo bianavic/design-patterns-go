@@ -203,6 +203,6 @@ func (xb *XMLBackend) GetAllMusicAlbums() ([]*models.MusicAlbum, error) {
 	return albums.Albums, nil
 }
 
-func (rs *RemoteService) GetAllMusicAlbumsXML() ([]*models.MusicAlbum, error) {
-	return rs.MRemote.GetAllMusicAlbums()
-}
+//func (rs *RemoteService) GetAllMusicAlbumsXML() ([]*models.MusicAlbum, error) {
+//	return rs.MRemote.GetAllMusicAlbums()
+//}
