@@ -47,3 +47,28 @@ func (m *mysqlRepository) AllMusicAlbums() ([]*MusicAlbum, error) {
 
 	return musicAlbums, nil
 }
+
+func (m *mysqlRepository) GetMusicAlbumByName(name string) (*MusicAlbum, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	query := `select ID, Name, MediaType, Genre, coalesce(Details, ''), Country, ReleaseDate 
+	   from media_stream.MusicAlbum where name = ?`
+
+	var musicAlbum MusicAlbum
+
+	err := m.DB.QueryRowContext(ctx, query, name).Scan(
+		&musicAlbum.ID,
+		&musicAlbum.Name,
+		&musicAlbum.MediaType,
+		&musicAlbum.Genre,
+		&musicAlbum.Details,
+		&musicAlbum.Country,
+		&musicAlbum.ReleaseDate)
+	if err != nil {
+		log.Println("error getting album music by name", err)
+		return nil, err
+	}
+
+	return &musicAlbum, nil
+}

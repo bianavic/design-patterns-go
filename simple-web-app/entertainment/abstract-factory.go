@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"simple-web-app/cmd/web/adapters"
+	"simple-web-app/configuration"
 	"simple-web-app/models"
 )
 
@@ -42,11 +43,13 @@ func (maf *MusicAbstractFactory) newMedia() MediaInterface {
 }
 
 func (maf *MusicAbstractFactory) NewEntertainmentWithMusicAlbums(music string) MediaInterface {
-	//app := configuration.GetInstance()
-	//album, _ := app.Models.MusicAlbum.GetMusicAlbumByName(music)
+	app := configuration.GetInstance()
+	album, _ := app.Models.MusicAlbum.GetMusicAlbumByName(music)
 	return &MusicFromFactory{
 		Entertainment: &models.Song{
-			//MediaType: album,
+			// because Cannot use 'album' (type *MusicAlbum) as the type MusicAlbum
+			// DEFERENCE the pointer to get the value - MediaType: *album
+			MediaType: *album,
 		},
 	}
 }
@@ -60,11 +63,11 @@ func (taf *TelevisionAbstractFactory) newMedia() MediaInterface {
 }
 
 func (taf *TelevisionAbstractFactory) NewEntertainmentWithTVShows(tvShow string) MediaInterface {
-	//app := configuration.GetInstance()
-	//tv, _ := app.Models.Television.GetTelevisionByName(tvShow)
+	app := configuration.GetInstance()
+	tv, _ := app.Models.Television.GetTelevisionByName(tvShow)
 	return &TelevisionFromFactory{
 		Entertainment: &models.TVShow{
-			//MediaType: tv,
+			MediaType: *tv,
 		},
 	}
 }

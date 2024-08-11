@@ -91,3 +91,11 @@ func (m *MusicAlbum) All() ([]*MusicAlbum, error) {
 func (tv *TVShow) All() ([]*TVShow, error) {
 	return repo.AllTVShows()
 }
+
+func (m *MusicAlbum) GetMusicAlbumByName(name string) (*MusicAlbum, error) {
+	return repo.GetMusicAlbumByName(name)
+}
+
+func (m *Television) AllTVShows() ([]*Television, error) {
+	return repo.AllTVShows()
+}

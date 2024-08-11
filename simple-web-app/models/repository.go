@@ -5,6 +5,7 @@ import "database/sql"
 type Repository interface {
 	AllMusicAlbums() ([]*MusicAlbum, error)
 	AllTVShows() ([]*TVShow, error)
+	GetMusicAlbumByName(name string) (*MusicAlbum, error)
 }
 
 // simple wrapper for sql.DB type, used to return MySQL repository
@@ -27,8 +28,4 @@ func newTestMysqlRepository(conn *sql.DB) Repository {
 	return &testRepository{
 		DB: nil,
 	}
-}
-
-func (m *testRepository) AllTVShows() ([]*TVShow, error) {
-	return []*TVShow{}, nil
 }
