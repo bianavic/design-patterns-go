@@ -9,6 +9,7 @@ type Models struct {
 	MusicAlbum    MusicAlbum
 	TVShow        TVShow
 	Entertainment Entertainment
+	Television    Television
 }
 
 // factory function
@@ -23,6 +24,7 @@ func New(conn *sql.DB) *Models {
 		MusicAlbum:    MusicAlbum{},
 		TVShow:        TVShow{},
 		Entertainment: Entertainment{},
+		Television:    Television{},
 	}
 }
 
@@ -109,4 +111,8 @@ func (tv *TVShow) GetTVShowByName(name string) (*TVShow, error) {
 
 func (e *Entertainment) GetEntertainmentByMediaType(mediaType string) (*Entertainment, error) {
 	return repo.GetEntertainmentByMediaType(mediaType)
+}
+
+func (t *Television) GetTelevisionByName(name string) (*Television, error) {
+	return repo.GetTelevisionByName(name)
 }

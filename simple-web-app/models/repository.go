@@ -9,6 +9,7 @@ type Repository interface {
 	GetTVShowByName(name string) (*TVShow, error)
 	AllEntertainment() ([]*Entertainment, error)
 	GetEntertainmentByMediaType(mediaType string) (*Entertainment, error)
+	GetTelevisionByName(name string) (*Television, error)
 }
 
 // simple wrapper for sql.DB type, used to return MySQL repository
