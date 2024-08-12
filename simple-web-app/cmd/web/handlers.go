@@ -5,6 +5,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/tsawler/toolbox"
 	"net/http"
+	"net/url"
 	"simple-web-app/entertainment"
 )
 
@@ -204,12 +205,19 @@ new factory function for Entertainment with embbed music albums and tv shows
 func (app *application) EntertainmentFromAbstractFactory(writer http.ResponseWriter, request *http.Request) {
 	var t toolbox.Tools
 
-	name := chi.URLParam(request, "name")
-	e, err := app.App.Models.Entertainment.GetEntertainmentByMediaType(name)
+	en := chi.URLParam(request, "entertainment")
+
+	mt := chi.URLParam(request, "media_type")
+	mediaType, _ := url.QueryUnescape(mt)
+
+	fmt.Println("entertainment: ", en, "mediaType: ", mediaType)
+
+	// create entertainment from abstract factory
+	result, err := entertainment.NewEntertainmentMediaTypeFromAbstractFactory(en, mediaType, "", nil)
 	if err != nil {
 		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
 		return
 	}
 
-	_ = t.WriteJSON(writer, http.StatusOK, e)
+	_ = t.WriteJSON(writer, http.StatusOK, result)
 }

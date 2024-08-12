@@ -52,7 +52,11 @@ func (mff *TelevisionAbstractFactory) newMedia() MediaInterface {
 
 func (mff *MusicAbstractFactory) newMediaWithMediaType(mt string) MediaInterface {
 	app := configuration.GetInstance()
-	mediaType, _ := app.Models.MusicAlbum.GetMusicAlbumByName(mt)
+	mediaType, err := app.Models.MusicAlbum.GetMusicAlbumByName(mt)
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
 	return &MusicFromFactory{
 		Entertainment: &models.Song{
 			MediaType: *mediaType,
@@ -62,7 +66,7 @@ func (mff *MusicAbstractFactory) newMediaWithMediaType(mt string) MediaInterface
 
 func (taf *TelevisionAbstractFactory) newMediaWithMediaType(mt string) MediaInterface {
 	app := configuration.GetInstance()
-	mediaType, err := app.TVShowService.GetTVShowByName(mt)
+	mediaType, err := app.Models.TVShow.GetTVShowByName(mt)
 	if err != nil {
 		log.Println(err)
 		return nil
@@ -90,8 +94,8 @@ func NewEntertainmentFromAbstractFactory(media string) (MediaInterface, error) {
 	}
 }
 
-func NewEntertainmentMediaTypeFromAbstractFactory(media, music string, tvShow string, adapter *adapters.RemoteService) (MediaInterface, error) {
-	switch media {
+func NewEntertainmentMediaTypeFromAbstractFactory(entertainment, music string, tvShow string, adapter *adapters.RemoteService) (MediaInterface, error) {
+	switch entertainment {
 	case "music":
 		var musicFactory MusicAbstractFactory
 		album := musicFactory.newMediaWithMediaType(music)

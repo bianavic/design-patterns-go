@@ -41,33 +41,6 @@ type JSONBackend struct{}
 // setup xml adapter
 type XMLBackend struct{}
 
-func (xb *XMLBackend) GetAllTelevisions() ([]*models.Television, error) {
-	resp, err := http.Get("http://localhost:8081/api/televisions/all/xml")
-	if err != nil {
-		return nil, err
-	}
-
-	defer resp.Body.Close()
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	type televisions struct {
-		XMLName     xml.Name             `xml:"televisions"`
-		Televisions []*models.Television `xml:"television"`
-	}
-
-	var tvs televisions
-	err = xml.Unmarshal(body, &tvs)
-	if err != nil {
-		return nil, err
-	}
-
-	return tvs.Televisions, nil
-}
-
 func (rs *RemoteService) GetAllMusicAlbums() ([]*models.MusicAlbum, error) {
 	return rs.MRemote.GetAllMusicAlbums()
 }
@@ -138,6 +111,64 @@ func (xb *XMLBackend) GetAlbumsByName(name string) (*models.MusicAlbum, error) {
 	}
 
 	return &album, nil
+}
+
+// implement interface to xml backend
+func (xb *XMLBackend) GetAllMusicAlbums() ([]*models.MusicAlbum, error) {
+	resp, err := http.Get("http://localhost:8081/api/music-albums/all/xml")
+	if err != nil {
+		return nil, err
+	}
+
+	// prevents resource leak
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	// consume xml
+	type musicAlbums struct {
+		//XMLName xml.Name `xml:"musicAlbums"`
+		XMLName struct{}             `xml:"music-albums"`
+		Albums  []*models.MusicAlbum `xml:"music-albums"`
+	}
+
+	var albums musicAlbums
+	err = xml.Unmarshal(body, &albums)
+	if err != nil {
+		return nil, err
+	}
+
+	return albums.Albums, nil
+}
+
+func (xb *XMLBackend) GetAllTelevisions() ([]*models.Television, error) {
+	resp, err := http.Get("http://localhost:8081/api/televisions/all/xml")
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	type televisions struct {
+		XMLName     xml.Name             `xml:"televisions"`
+		Televisions []*models.Television `xml:"television"`
+	}
+
+	var tvs televisions
+	err = xml.Unmarshal(body, &tvs)
+	if err != nil {
+		return nil, err
+	}
+
+	return tvs.Televisions, nil
 }
 
 func (rs *RemoteService) GetAllTelevisions() ([]*models.Television, error) {
@@ -244,8 +275,27 @@ func (rs *RemoteService) GetAllTVShows() ([]*models.TVShow, error) {
 	return rs.TVRemote.GetAllTVShows()
 }
 
-func (rs *RemoteService) GetTVShowByName(name string) (*models.TVShow, error) {
-	return rs.TVRemote.GetTVShowByName(name)
+func (jb *JSONBackend) GetTVShowByName(name string) (*models.TVShow, error) {
+	// logic to connect to json backend
+	resp, err := http.Get("http://localhost:8081/api/tv-show/" + name + "/json")
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var tvShow models.TVShow
+	err = json.Unmarshal(body, &tvShow)
+	if err != nil {
+		return nil, err
+	}
+
+	return &tvShow, nil
 }
 
 func (jb *JSONBackend) GetAllTVShows() ([]*models.TVShow, error) {
@@ -269,37 +319,6 @@ func (jb *JSONBackend) GetAllTVShows() ([]*models.TVShow, error) {
 	}
 
 	return tvShows, nil
-}
-
-// implement interface to xml backend
-func (xb *XMLBackend) GetAllMusicAlbums() ([]*models.MusicAlbum, error) {
-	resp, err := http.Get("http://localhost:8081/api/music-albums/all/xml")
-	if err != nil {
-		return nil, err
-	}
-
-	// prevents resource leak
-	defer resp.Body.Close()
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	// consume xml
-	type musicAlbums struct {
-		//XMLName xml.Name `xml:"musicAlbums"`
-		XMLName struct{}             `xml:"music-albums"`
-		Albums  []*models.MusicAlbum `xml:"music-albums"`
-	}
-
-	var albums musicAlbums
-	err = xml.Unmarshal(body, &albums)
-	if err != nil {
-		return nil, err
-	}
-
-	return albums.Albums, nil
 }
 
 type TestBackend struct{}
