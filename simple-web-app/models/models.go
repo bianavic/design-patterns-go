@@ -45,6 +45,13 @@ type MusicAlbum struct {
 	ReleaseDate string `json:"release_date" xml:"ReleaseDate"`
 }
 
+type MusicAlbumOfMonth struct {
+	ID         int
+	MusicAlbum *MusicAlbum
+	Video      string
+	Image      string
+}
+
 type Television struct {
 	ID          int    `json:"id" xml:"ID"`
 	Name        string `json:"name" xml:"Name"`
@@ -115,4 +122,8 @@ func (e *Entertainment) GetEntertainmentByMediaType(mediaType string) (*Entertai
 
 func (t *Television) GetTelevisionByName(name string) (*Television, error) {
 	return repo.GetTelevisionByName(name)
+}
+
+func (t *MusicAlbum) GetMusicAlbumOfMonthByID(id int) (*MusicAlbumOfMonth, error) {
+	return repo.GetMusicAlbumOfMonthByID(id)
 }

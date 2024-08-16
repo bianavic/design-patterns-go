@@ -72,3 +72,25 @@ func (m *mysqlRepository) GetMusicAlbumByName(name string) (*MusicAlbum, error) 
 
 	return &musicAlbum, nil
 }
+
+func (m *mysqlRepository) GetMusicAlbumOfMonthByID(id int) (*MusicAlbumOfMonth, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	query := `select ID, video, image from musicAlbumOfMonth where ID = ?`
+
+	row := m.DB.QueryRowContext(ctx, query, id)
+	var musicAlbum MusicAlbumOfMonth
+	err := row.Scan(
+		&musicAlbum.ID,
+		&musicAlbum.Video,
+		&musicAlbum.Image,
+	)
+	if err != nil {
+		log.Println("error getting music album of month by id", err)
+		return nil, err
+	}
+
+	return &musicAlbum, err
+
+}
