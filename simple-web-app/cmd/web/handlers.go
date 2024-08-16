@@ -206,8 +206,8 @@ func (app *application) EntertainmentFromAbstractFactory(writer http.ResponseWri
 	var t toolbox.Tools
 
 	en := chi.URLParam(request, "entertainment")
-
 	mt := chi.URLParam(request, "media_type")
+
 	mediaType, _ := url.QueryUnescape(mt)
 
 	fmt.Println("entertainment: ", en, "mediaType: ", mediaType)

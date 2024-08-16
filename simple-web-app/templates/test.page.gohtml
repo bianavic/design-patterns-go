@@ -93,7 +93,8 @@
         let televisionBuilderButton = document.getElementById("television-builder-btn")
         let builderOutput = document.getElementById("builder-output")
 
-        // let abstractFactoryIIButton = document.getElementById("abstract-factory-ii-btn")
+        let abstractFactoryIIButton = document.getElementById("abstract-factory-ii-btn")
+        let abstractFactoryIIOutput = document.getElementById("abstract-factory-ii-output")
 
         document.addEventListener("DOMContentLoaded", function () {
             musicFactoryButton.addEventListener("click", function () {
@@ -167,6 +168,36 @@
                         }
                     })
             })
+
+            abstractFactoryIIButton.addEventListener("click", function () {
+                let entertainment = document.getElementById("abstract-factory-ii-btn").value;
+                let mediaType = document.getElementById("abstract-factory-ii-btn").value;
+
+                fetch(`/api/entertainment-from-abstract-factory/${entertainment}/${mediaType}`, {method: "GET"})
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            abstractFactoryIIOutput.innerHTML = data.error
+                        } else {
+                            abstractFactoryIIOutput.innerHTML = JSON.stringify(data, undefined, 4)
+                        }
+                    })
+            })
+
+            // abstractFactoryIIButton.addEventListener("click", function () {
+            //     let entertainment = document.getElementById("entertainment").value;
+            //     let media_type = document.getElementById("media_type").value;
+            //
+            //     fetch(`/api/media-from-abstract-factory/${entertainment}/${media_type}`, {method: "GET"})
+            //         .then(response => response.json())
+            //         .then(data => {
+            //             if (data.error) {
+            //                 abstractFactoryIIOutput.innerHTML = data.error
+            //             } else {
+            //                 abstractFactoryIIOutput.innerHTML = JSON.stringify(data, undefined, 4)
+            //             }
+            //         })
+            // })
 
         })
 
