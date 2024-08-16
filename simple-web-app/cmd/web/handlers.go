@@ -19,6 +19,16 @@ func (app *application) ShowPage(writer http.ResponseWriter, request *http.Reque
 	app.render(writer, fmt.Sprintf("%s.page.gohtml", page), nil)
 }
 
+func (app *application) MusicAlbumOfTheMonth(writer http.ResponseWriter, request *http.Request) {
+	// get album
+
+	// get album of the month from db
+
+	// create an album and decorate it
+
+	// serve the web page
+}
+
 func (app *application) ShowMusicSongs(writer http.ResponseWriter, request *http.Request) {
 
 	songs := []struct {

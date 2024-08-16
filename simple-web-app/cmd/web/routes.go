@@ -43,6 +43,8 @@ func (app *application) routes() http.Handler {
 		http.ServeFile(w, r, "./static"+path)
 	})))
 
+	mux.Get("/music-album-of-the-month", app.MusicAlbumOfTheMonth)
+
 	// display test page
 	mux.Get("/test-patterns", app.TestPatterns)
 
