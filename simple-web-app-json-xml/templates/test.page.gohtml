@@ -3,6 +3,8 @@
 {{ define "content" }}
     <div class="container">
         <div class="row">
+
+
             <div class="col">
                 <h1 class="mt-3">Design Patterns in GO</h1>
                 <hr>
@@ -47,6 +49,32 @@
                     <pre id="builder-output"><span class="text-muted">Nothing received yet...</span></pre>
                 </div>
 
+
+                <hr class="mt-4">
+                <h3 class="mt-3">Abstract Factory II</h3>
+                                <form>
+                                    <div class ="row mb-3">
+                                        <label for="entertainment" class="col-sm-2 col col-form-label">Entertainment</label>
+                                        <select id="entertainment" class="form-select">
+                                            <option selected>Choose</option>
+                                            <option value="song-list">Musics</option>
+{{/*                                            <option value="music-video-clips">Music Video Clips</option>*/}}
+                                            <option value="tv-shows">TV Shows</option>
+
+                                        </select>
+                                    </div>
+                                    <div class ="row mb-3">
+                                        <label for="media-type" class="col-sm-2 col col-form-label">MediaType</label>
+                                        <input type="text" class="form-control" id="media-type">
+                                    </div>
+                                    <a href=javascript:void(0); id="abstract-factory-ii-btn" class="btn btn outline-secondary">
+                                        Get from abstract factory
+                                    </a>
+                               </form>
+                                <div class="mt-2" style="outline: 1px solid silver; padding: 2em;">
+                                    <pre id="abstract-factory-ii-output"><span class="text-muted">Nothing received yet</span></pre>
+                                </div>
+
             </div>
         </div>
     </div>
@@ -66,6 +94,8 @@
         let musicBuilderButton = document.getElementById("music-builder-btn")
         let televisionBuilderButton = document.getElementById("television-builder-btn")
         let builderOutput = document.getElementById("builder-output")
+
+        let abstractFactoryIIButton = document.getElementById("abstract-factory-ii-btn")
 
         document.addEventListener("DOMContentLoaded", function () {
             musicFactoryButton.addEventListener("click", function () {
