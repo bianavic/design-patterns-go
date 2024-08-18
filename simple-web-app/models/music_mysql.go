@@ -3,6 +3,7 @@ package models
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"log"
 	"time"
 )
@@ -11,7 +12,7 @@ func (m *mysqlRepository) GetMusicOfMonthByID(id int) (*MusicOfMonth, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	query := `SELECT id, image, video FROM MusicOfMonth WHERE id = ?`
+	query := `SELECT id, video, image FROM MusicOfMonth WHERE id = ?`
 	row := m.DB.QueryRowContext(ctx, query, id)
 
 	var music MusicOfMonth
@@ -21,7 +22,7 @@ func (m *mysqlRepository) GetMusicOfMonthByID(id int) (*MusicOfMonth, error) {
 		&music.Image,
 	)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			return nil, nil // No result found, return nil
 		}
 		log.Println("error getting music of the month by ID:", err)

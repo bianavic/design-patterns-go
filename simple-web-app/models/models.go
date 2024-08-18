@@ -32,6 +32,7 @@ func New(conn *sql.DB) *Models {
 	}
 }
 
+// generico
 type Entertainment struct {
 	Media       string `json:"media" xml:"Media"`
 	MediaType   string `json:"media_type" xml:"MediaType"`
@@ -39,6 +40,7 @@ type Entertainment struct {
 	Description string `json:"description" xml:"Description"`
 }
 
+// detalha uma coleção específica de faixas musicais
 type MusicAlbum struct {
 	ID          int    `json:"id" xml:"ID"`
 	Name        string `json:"name" xml:"Name"`
@@ -49,13 +51,15 @@ type MusicAlbum struct {
 	ReleaseDate string `json:"release_date" xml:"ReleaseDate"`
 }
 
+// destaca uma faixa musical específica.
 type MusicOfMonth struct {
-	ID    int    `json:"id"`
-	Music *Music `json:"music"`
-	Video string `json:"video"`
-	Image string `json:"image"`
+	ID    int    `json:"id" xml:"ID"`
+	Music *Music `json:"music" xml:"Music"`
+	Video string `json:"video" xml:"Video"`
+	Image string `json:"image" xml:"Image"`
 }
 
+// tipo/categoria dentro entretenimento
 type Television struct {
 	ID          int    `json:"id" xml:"ID"`
 	Name        string `json:"name" xml:"Name"`
@@ -66,6 +70,7 @@ type Television struct {
 	ReleaseDate string `json:"release_date" xml:"ReleaseDate"`
 }
 
+// tipo/categoria dentro entretenimento
 type Music struct {
 	ID           int        `json:"id" xml:"ID"`
 	MusicAlbumID int        `json:"music_album_id" xml:"MusicAlbumID"`
@@ -77,6 +82,7 @@ type Music struct {
 	Person       Person     `json:"person" xml:"Person"`
 }
 
+// destaca uma serie especifica de televisao
 type TVShow struct {
 	ID           int    `json:"id" xml:"ID"`
 	TelevisionID int    `json:"television_id" xml:"TelevisionID"`
@@ -88,6 +94,7 @@ type TVShow struct {
 	Person       Person `json:"person" xml:"Person"`
 }
 
+// produtor / criador
 type Person struct {
 	ID          int           `json:"id" xml:"ID"`
 	Name        string        `json:"name" xml:"Name"`

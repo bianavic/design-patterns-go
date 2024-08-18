@@ -45,8 +45,7 @@ func (app *application) MusicOfMonth(writer http.ResponseWriter, request *http.R
 	// create music and decorate it
 	// decorator variable
 	music := models.MusicOfMonth{
-		ID: 2,
-		// embedded
+		// music embedded
 		Music: &models.Music{
 			ID:           2,
 			MusicAlbumID: musicTitle.ID,
