@@ -5,7 +5,6 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/tsawler/toolbox"
 	"net/http"
-	"net/url"
 	"simple-web-app/entertainment"
 	"simple-web-app/models"
 )
@@ -145,27 +144,27 @@ func (app *application) TestPatterns(writer http.ResponseWriter, request *http.R
 	app.render(writer, "test.page.gohtml", nil)
 }
 
-func (app *application) CreateMusicFromAbstractFactory(writer http.ResponseWriter, request *http.Request) {
-	var t toolbox.Tools
-	music, err := entertainment.NewEntertainmentFromAbstractFactory("music")
-	if err != nil {
-		_ = t.WriteJSON(writer, http.StatusBadRequest, err.Error())
-		return
-	}
-	// send to user as a response
-	_ = t.WriteJSON(writer, http.StatusOK, music)
-}
-
-func (app *application) CreateTelevisionFromAbstractFactory(writer http.ResponseWriter, request *http.Request) {
-	var t toolbox.Tools
-	television, err := entertainment.NewEntertainmentFromAbstractFactory("television")
-	if err != nil {
-		_ = t.WriteJSON(writer, http.StatusBadRequest, err.Error())
-		return
-	}
-	// send to user as a response
-	_ = t.WriteJSON(writer, http.StatusOK, television)
-}
+//func (app *application) CreateMusicFromAbstractFactory(writer http.ResponseWriter, request *http.Request) {
+//	var t toolbox.Tools
+//	music, err := entertainment.NewEntertainmentFromAbstractFactory("music")
+//	if err != nil {
+//		_ = t.WriteJSON(writer, http.StatusBadRequest, err.Error())
+//		return
+//	}
+//	// send to user as a response
+//	_ = t.WriteJSON(writer, http.StatusOK, music)
+//}
+//
+//func (app *application) CreateTelevisionFromAbstractFactory(writer http.ResponseWriter, request *http.Request) {
+//	var t toolbox.Tools
+//	television, err := entertainment.NewEntertainmentFromAbstractFactory("television")
+//	if err != nil {
+//		_ = t.WriteJSON(writer, http.StatusBadRequest, err.Error())
+//		return
+//	}
+//	// send to user as a response
+//	_ = t.WriteJSON(writer, http.StatusOK, television)
+//}
 
 func (app *application) GetAllMusicAlbumsJSON(writer http.ResponseWriter, request *http.Request) {
 	var t toolbox.Tools
@@ -252,22 +251,22 @@ func (app *application) GetAllMusicAlbums(writer http.ResponseWriter, request *h
 STUB HANDLER
 new factory function for Entertainment with embbed music albums and tv shows
 */
-func (app *application) EntertainmentFromAbstractFactory(writer http.ResponseWriter, request *http.Request) {
-	var t toolbox.Tools
-
-	en := chi.URLParam(request, "entertainment")
-	mt := chi.URLParam(request, "media_type")
-
-	mediaType, _ := url.QueryUnescape(mt)
-
-	fmt.Println("entertainment: ", en, "mediaType: ", mediaType)
-
-	// create entertainment from abstract factory
-	result, err := entertainment.NewEntertainmentMediaTypeFromAbstractFactory(en, mediaType, "", nil)
-	if err != nil {
-		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
-		return
-	}
-
-	_ = t.WriteJSON(writer, http.StatusOK, result)
-}
+//func (app *application) EntertainmentFromAbstractFactory(writer http.ResponseWriter, request *http.Request) {
+//	var t toolbox.Tools
+//
+//	en := chi.URLParam(request, "entertainment")
+//	mt := chi.URLParam(request, "media_type")
+//
+//	mediaType, _ := url.QueryUnescape(mt)
+//
+//	fmt.Println("entertainment: ", en, "mediaType: ", mediaType)
+//
+//	// create entertainment from abstract factory
+//	result, err := entertainment.NewEntertainmentMediaTypeFromAbstractFactory(en, mediaType, "", nil)
+//	if err != nil {
+//		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
+//		return
+//	}
+//
+//	_ = t.WriteJSON(writer, http.StatusOK, result)
+//}

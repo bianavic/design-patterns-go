@@ -51,8 +51,8 @@ func (app *application) routes() http.Handler {
 	// factory routes
 	mux.Get("/api/music-factory", app.CreateMusicFromFactory)
 	mux.Get("/api/television-factory", app.CreateTelevisionFromFactory)
-	mux.Get("/api/music-abstract-factory", app.CreateMusicFromAbstractFactory)
-	mux.Get("/api/television-abstract-factory", app.CreateTelevisionFromAbstractFactory)
+	//mux.Get("/api/music-abstract-factory", app.CreateMusicFromAbstractFactory)
+	//mux.Get("/api/television-abstract-factory", app.CreateTelevisionFromAbstractFactory)
 
 	// builder routes
 	mux.Get("/api/music-album-builder", app.CreateMusicAlbumWithBuilder)
@@ -69,7 +69,7 @@ func (app *application) routes() http.Handler {
 
 	//mux.Get("/api/media-from-abstract-factory/{entertainment}/{media_type}", app.EntertainmentFromAbstractFactory)
 
-	mux.Get("/api/entertainment-from-abstract-factory/{entertainment}/{mediaType}", app.EntertainmentFromAbstractFactory)
+	//mux.Get("/api/entertainment-from-abstract-factory/{entertainment}/{mediaType}", app.EntertainmentFromAbstractFactory)
 
 	//mux.Get("/api/entertainment", app.GetAllEntertainmentJSON)
 
