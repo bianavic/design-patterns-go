@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/tsawler/toolbox"
+	"log"
 	"net/http"
 	"simple-web-app/entertainment"
 	"simple-web-app/models"
@@ -20,6 +21,8 @@ func (app *application) ShowPage(writer http.ResponseWriter, request *http.Reque
 }
 
 func (app *application) MusicOfMonth(writer http.ResponseWriter, request *http.Request) {
+	log.Println("Handling request for /music-of-month")
+
 	// get music
 	musicTitle, err := app.App.Models.Music.GetMusicByTitle("Trustfall")
 	if err != nil {
@@ -30,6 +33,7 @@ func (app *application) MusicOfMonth(writer http.ResponseWriter, request *http.R
 		http.Error(writer, "Music not found", http.StatusNotFound)
 		return
 	}
+	log.Println("getting GetMusicByTitle")
 
 	// get album of the month from db
 	mom, err := app.App.Models.Music.GetMusicOfMonthByID(2)
@@ -41,6 +45,7 @@ func (app *application) MusicOfMonth(writer http.ResponseWriter, request *http.R
 		http.Error(writer, "Music of the month not found", http.StatusNotFound)
 		return
 	}
+	log.Println("getting GetMusicOfMonthByID")
 
 	// create music and decorate it
 	// decorator variable

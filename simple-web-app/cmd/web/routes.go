@@ -43,8 +43,6 @@ func (app *application) routes() http.Handler {
 		http.ServeFile(w, r, "./static"+path)
 	})))
 
-	mux.Get("/music-of-month", app.MusicOfMonth)
-
 	// display test page
 	mux.Get("/test-patterns", app.TestPatterns)
 
@@ -66,6 +64,8 @@ func (app *application) routes() http.Handler {
 
 	mux.Get("/api/music-albums", app.GetAllMusicAlbums)
 	mux.Get("/api/tv-shows-json", app.GetAllTVShows)
+
+	mux.Get("/music-of-month", app.MusicOfMonth)
 
 	//mux.Get("/api/media-from-abstract-factory/{entertainment}/{media_type}", app.EntertainmentFromAbstractFactory)
 

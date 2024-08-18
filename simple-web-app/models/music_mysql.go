@@ -12,7 +12,7 @@ func (m *mysqlRepository) GetMusicOfMonthByID(id int) (*MusicOfMonth, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	query := `SELECT id, video, image FROM MusicOfMonth WHERE id = ?`
+	query := `SELECT MusicOfMonth.id, MusicOfMonth.video, MusicOfMonth.image from MusicOfMonth where  id = ?`
 	row := m.DB.QueryRowContext(ctx, query, id)
 
 	var music MusicOfMonth
@@ -23,7 +23,7 @@ func (m *mysqlRepository) GetMusicOfMonthByID(id int) (*MusicOfMonth, error) {
 	)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return nil, nil // No result found, return nil
+			return nil, nil
 		}
 		log.Println("error getting music of the month by ID:", err)
 		return nil, err
@@ -37,7 +37,7 @@ func (m *mysqlRepository) GetMusicByTitle(title string) (*Music, error) {
 	defer cancel()
 
 	// TODO update query to get music
-	query := `SELECT ID, MusicAlbumID, Year, PersonID, Title, Artist FROM media_stream.Music WHERE Title = ?`
+	query := `SELECT Music.ID, Music.MusicAlbumID, Music.Year, Music.PersonID, Music.Title, Music.Artist from Music where Title = ?`
 	row := m.DB.QueryRowContext(ctx, query, title)
 
 	var music Music
@@ -50,7 +50,8 @@ func (m *mysqlRepository) GetMusicByTitle(title string) (*Music, error) {
 		&music.Artist,
 	)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
+			log.Println("No music found with title:", title)
 			return nil, nil // No result found, return nil
 		}
 		log.Println("error getting music by title:", err)

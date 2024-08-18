@@ -11,10 +11,10 @@
                 <div class="row">
                     <div class="col">
                         <h2>{{ $mom.Music.Title }}</h2>
-                        <p>{{  $mom.Music.Artist }}</p>
                     </div>
                     <div class="col">
-                        {{ if ne mom.Image "" }}
+                        {{ if ne $mom.Image "" }}
+{{/*                            <p>Image path: /static/mom/{{ $mom.Image }}</p>*/}}
                             <img src="/static/mom/{{ $mom.Image }}" alt="image" class="img img-thumbnail">
                             {{ end }}
                     </div>
