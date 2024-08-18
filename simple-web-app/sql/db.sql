@@ -29,12 +29,12 @@ CREATE TABLE Person (
                         Active INT
 );
 
-CREATE TABLE Song (
+CREATE TABLE Music (
                       ID INT PRIMARY KEY,
                       MusicAlbumID INT,
                       Year INT,
                       PersonID INT,
-                      SongTitle VARCHAR(255),
+                      Title VARCHAR(255),
                       Artist VARCHAR(255),
                       FOREIGN KEY (MusicAlbumID) REFERENCES MusicAlbum(ID),
                       FOREIGN KEY (PersonID) REFERENCES Person(ID)
@@ -71,7 +71,7 @@ INSERT INTO Person (ID, Name, Address, Country, ZipCode, Email, Active) VALUES
                                                                             (1, 'John Doe', '123 Main St', 'USA', '12345', 'john.doe@example.com', 1),
                                                                             (2, 'Jane Smith', '456 Elm St', 'UK', '67890', 'jane.smith@example.com', 1);
 
-INSERT INTO Song (ID, MusicAlbumID, Year, PersonID, SongTitle, Artist) VALUES
+INSERT INTO Music (ID, MusicAlbumID, Year, PersonID, Title, Artist) VALUES
                                                                            (1, 1, 2020, 1, 'Exile', 'Taylor Swift'),
                                                                            (2, 2, 2023, 2, 'TrustFall', 'Pink');
 

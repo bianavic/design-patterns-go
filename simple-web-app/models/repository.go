@@ -10,7 +10,8 @@ type Repository interface {
 	AllEntertainment() ([]*Entertainment, error)
 	GetEntertainmentByMediaType(mediaType string) (*Entertainment, error)
 	GetTelevisionByName(name string) (*Television, error)
-	GetMusicAlbumOfMonthByID(id int) (*MusicAlbumOfMonth, error)
+	GetMusicOfMonthByID(id int) (*MusicOfMonth, error)
+	GetMusicByTitle(name string) (*Music, error)
 }
 
 // simple wrapper for sql.DB type, used to return MySQL repository

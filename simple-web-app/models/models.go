@@ -10,6 +10,8 @@ type Models struct {
 	TVShow        TVShow
 	Entertainment Entertainment
 	Television    Television
+	Music         Music
+	MusicOfMonth  MusicOfMonth
 }
 
 // factory function
@@ -25,6 +27,8 @@ func New(conn *sql.DB) *Models {
 		TVShow:        TVShow{},
 		Entertainment: Entertainment{},
 		Television:    Television{},
+		Music:         Music{},
+		MusicOfMonth:  MusicOfMonth{},
 	}
 }
 
@@ -45,11 +49,11 @@ type MusicAlbum struct {
 	ReleaseDate string `json:"release_date" xml:"ReleaseDate"`
 }
 
-type MusicAlbumOfMonth struct {
-	ID         int
-	MusicAlbum *MusicAlbum
-	Video      string
-	Image      string
+type MusicOfMonth struct {
+	ID    int    `json:"id"`
+	Music *Music `json:"music"`
+	Video string `json:"video"`
+	Image string `json:"image"`
 }
 
 type Television struct {
@@ -62,12 +66,12 @@ type Television struct {
 	ReleaseDate string `json:"release_date" xml:"ReleaseDate"`
 }
 
-type Song struct {
+type Music struct {
 	ID           int        `json:"id" xml:"ID"`
 	MusicAlbumID int        `json:"music_album_id" xml:"MusicAlbumID"`
 	Year         int        `json:"year" xml:"Year"`
 	PersonID     int        `json:"person_id" xml:"PersonID"`
-	SongTitle    string     `json:"song_title" xml:"SongTitle"`
+	Title        string     `json:"song_title" xml:"Title"`
 	Artist       string     `json:"artist" xml:"Artist"`
 	MediaType    MusicAlbum `json:"album" xml:"MediaType"`
 	Person       Person     `json:"person" xml:"Person"`
@@ -124,6 +128,10 @@ func (t *Television) GetTelevisionByName(name string) (*Television, error) {
 	return repo.GetTelevisionByName(name)
 }
 
-func (t *MusicAlbum) GetMusicAlbumOfMonthByID(id int) (*MusicAlbumOfMonth, error) {
-	return repo.GetMusicAlbumOfMonthByID(id)
+func (t *Music) GetMusicOfMonthByID(id int) (*MusicOfMonth, error) {
+	return repo.GetMusicOfMonthByID(id)
+}
+
+func (m *Music) GetMusicByTitle(title string) (*Music, error) {
+	return repo.GetMusicByTitle(title)
 }

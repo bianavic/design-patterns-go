@@ -1,0 +1,26 @@
+{{ template "base" . }}
+
+{{ define "content" }}
+{{ $mom := index .Data "music" }}
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3 class="mt-4">Music of the Month</h3>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <h2>{{ $mom.Music.Title }}</h2>
+                        <p>{{  $mom.Music.Artist }}</p>
+                    </div>
+                    <div class="col">
+                        {{ if ne mom.Image "" }}
+                            <img src="/static/mom/{{ $mom.Image }}" alt="image" class="img img-thumbnail">
+                            {{ end }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{{ end }}

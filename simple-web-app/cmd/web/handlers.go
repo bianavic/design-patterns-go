@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"simple-web-app/entertainment"
+	"simple-web-app/models"
 )
 
 func (app *application) ShowHome(writer http.ResponseWriter, request *http.Request) {
@@ -19,14 +20,53 @@ func (app *application) ShowPage(writer http.ResponseWriter, request *http.Reque
 	app.render(writer, fmt.Sprintf("%s.page.gohtml", page), nil)
 }
 
-func (app *application) MusicAlbumOfTheMonth(writer http.ResponseWriter, request *http.Request) {
-	// get album
+func (app *application) MusicOfMonth(writer http.ResponseWriter, request *http.Request) {
+	// get music
+	musicTitle, err := app.App.Models.Music.GetMusicByTitle("Trustfall")
+	if err != nil {
+		http.Error(writer, "Error retrieving music", http.StatusInternalServerError)
+		return
+	}
+	if musicTitle == nil {
+		http.Error(writer, "Music not found", http.StatusNotFound)
+		return
+	}
 
 	// get album of the month from db
+	mom, err := app.App.Models.Music.GetMusicOfMonthByID(2)
+	if err != nil {
+		http.Error(writer, "Error retrieving music of the month", http.StatusInternalServerError)
+		return
+	}
+	if mom == nil {
+		http.Error(writer, "Music of the month not found", http.StatusNotFound)
+		return
+	}
 
-	// create an album and decorate it
+	// create music and decorate it
+	// decorator variable
+	music := models.MusicOfMonth{
+		ID: 2,
+		// embedded
+		Music: &models.Music{
+			ID:           2,
+			MusicAlbumID: musicTitle.ID,
+			Year:         2023,
+			Title:        "Trustfall",
+			Artist:       "Pink",
+		},
+		// decorates with video and image
+		Video: mom.Video,
+		Image: mom.Image,
+	}
 
-	// serve the web page
+	// Serve the web page
+	data := make(map[string]any)
+	data["music"] = music
+
+	app.render(writer, "music-of-month.page.gohtml", &templateData{
+		Data: data,
+	})
 }
 
 func (app *application) ShowMusicSongs(writer http.ResponseWriter, request *http.Request) {
