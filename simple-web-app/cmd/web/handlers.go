@@ -68,7 +68,7 @@ func (app *application) MusicOfMonth(writer http.ResponseWriter, request *http.R
 	})
 }
 
-func (app *application) ShowMusicSongs(writer http.ResponseWriter, request *http.Request) {
+func (app *application) ShowMusicVideoClips(writer http.ResponseWriter, request *http.Request) {
 
 	songs := []struct {
 		Title string
@@ -204,7 +204,7 @@ func (app *application) CreateTelevisionWithBuilder(writer http.ResponseWriter, 
 	var t toolbox.Tools
 
 	// create a new music album using builder pattern
-	m, err := entertainment.NewEntertainmentBuilder().
+	tv, err := entertainment.NewEntertainmentBuilder().
 		SetType("TV Show").
 		SetMediaType("Streaming").
 		SetGenre("Crime").
@@ -220,7 +220,7 @@ func (app *application) CreateTelevisionWithBuilder(writer http.ResponseWriter, 
 	}
 
 	// send to user as a response
-	_ = t.WriteJSON(writer, http.StatusOK, m)
+	_ = t.WriteJSON(writer, http.StatusOK, tv)
 }
 
 func (app *application) GetAllTVShows(writer http.ResponseWriter, request *http.Request) {
@@ -238,13 +238,13 @@ func (app *application) GetAllTVShows(writer http.ResponseWriter, request *http.
 func (app *application) GetAllMusicAlbums(writer http.ResponseWriter, request *http.Request) {
 	var t toolbox.Tools
 
-	tvShows, err := app.App.Models.MusicAlbum.All()
+	m, err := app.App.Models.MusicAlbum.All()
 	if err != nil {
 		_ = t.ErrorJSON(writer, err, http.StatusBadRequest)
 		return
 	}
 
-	_ = t.WriteJSON(writer, http.StatusOK, tvShows)
+	_ = t.WriteJSON(writer, http.StatusOK, m)
 }
 
 /*
