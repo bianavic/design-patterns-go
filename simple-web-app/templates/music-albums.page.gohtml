@@ -6,11 +6,6 @@
 
 {{ define "content" }}
 
-{{/*    <picture>*/}}
-{{/*        <source srcset="/static/music-albums/folklore.webp" type="image/webp" class="img img-fluid">*/}}
-{{/*        <img src="/static/music-albums/folklore.jpg" alt="albums" class="img-fluid">*/}}
-{{/*    </picture>*/}}
-
     <div class="container">
         <div class="row">
             <div class="col">
@@ -58,7 +53,7 @@
             fetch("/api/music-albums", {method: "GET"})
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Network z was not ok');
+                        throw new Error('Network response was not ok');
                     }
                     return response.json();
                 })
